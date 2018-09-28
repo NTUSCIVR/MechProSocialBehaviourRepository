@@ -3087,7 +3087,7 @@ namespace My
                 return;
             }
             sInstance = this;
-            datapath = Application.dataPath + "/testData.csv";
+            datapath = Application.dataPath + "/Gestures/DeveloperDefined.csv";
             mCVRSystem = Valve.VR.OpenVR.System;
 
             // Shorten the debug message

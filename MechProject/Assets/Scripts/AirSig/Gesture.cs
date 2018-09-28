@@ -8,20 +8,23 @@ public class Gesture : GestureHandler
 {
     // Gesture index to use for training and verifying custom gesture. Valid range is between 1 and 1000
     // Beware that setting to 100 will overwrite your player signature.
-    readonly int PLAYER_GESTURE_ONE = 101;
-    readonly int PLAYER_GESTURE_TWO = 102;
+    readonly int PLAYER_GESTURE_WALK = 101;
+    readonly int PLAYER_GESTURE_LEFT = 102;
+    readonly int PLAYER_GESTURE_RIGHT = 103;
 
-    readonly string GESTURE_ONE = "<color=#FF00FF>Gesture #1</color>";
-    readonly string GESTURE_TWO = "<color=yellow>Gesture #2</color>";
+    readonly string GESTURE_WALK = "<color=#FF00FF>Gesture #WALK</color>";
+    readonly string GESTURE_LEFT = "<color=yellow>Gesture #LEFT</color>";
+    readonly string GESTURE_RIGHT = "<color=#00FFFF>Gesture #RIGHT</color>";
 
     // How many gesture we need to collect for each gesture type
-    readonly int MAX_TRAIN_COUNT = 5;
+    readonly int MAX_TRAIN_COUNT = 12;
 
     // Use these steps to iterate gesture when train 'Smart Train' and 'Custom Gesture'
-    int currentPlayerGestureTarget; // 101 = heart, 102 = down
+    int currentPlayerGestureTarget; // 101 = GESTURE_WALK, 102 = GESTURE_LEFT, 103 = GESTURE_RIGHT
 
     bool hasSetupGestureOne = false;
     bool hasSetupGestureTwo = false;
+    bool hasSetupGestureThree = false;
 
     // Callback for receiving signature/gesture progression or identification results
     Manager.OnPlayerGestureMatch playerGestureMatch;
@@ -40,15 +43,19 @@ public class Gesture : GestureHandler
         else
         {
             string result = "<color=red>Cannot find closest custom gesture</color>";
-            if (PLAYER_GESTURE_ONE == match)
+            if (PLAYER_GESTURE_WALK == match)
             {
-                result = string.Format("<color=#FF00FF>Closest Custom Gesture Gesture #1</color>");
+                result = string.Format("<color=#FF00FF>Closest Custom Gesture Gesture #WALK</color>");
             }
-            else if (PLAYER_GESTURE_TWO == match)
+            else if (PLAYER_GESTURE_LEFT == match)
             {
-                result = string.Format("<color=yellow>Closest Custom Gesture Gesture #2</color>");
+                result = string.Format("<color=yellow>Closest Custom Gesture Gesture #LEFT</color>");
             }
-            
+            else if (PLAYER_GESTURE_RIGHT == match)
+            {
+                result = string.Format("<color=#00FFFF>Closest Custom Gesture Gesture #RIGHT</color>");
+            }
+
             // Check whether this gesture match any custom gesture in the database
             float[] data = Manager.GetFromCache(gestureId);
             bool isExisted = Manager.IsPlayerGestureExisted(data);
@@ -66,26 +73,56 @@ public class Gesture : GestureHandler
     void HandleOnPlayerGestureAdd(long gestureId, Dictionary<int, int> result)
     {
         int count = result[currentPlayerGestureTarget];
+
+        // Set color command and gesture string for textToUpdate
+        string color = "";
+        string gesture = "";
+        if (currentPlayerGestureTarget == PLAYER_GESTURE_WALK)
+        {
+            color = "<color=#FF00FF>";
+            gesture = "Gesture #WALK";
+        }
+        else if (currentPlayerGestureTarget == PLAYER_GESTURE_LEFT)
+        {
+            color = "<color=yellow>";
+            gesture = "Gesture #LEFT";
+        }
+        else if (currentPlayerGestureTarget == PLAYER_GESTURE_RIGHT)
+        {
+            color = "<color=#00FFFF>";
+            gesture = "Gesture #RIGHT";
+        }
+
         textToUpdate = string.Format("{0}{1}/{2} gesture(s) collected for {3}\nContinue to collect more samples</color>",
-            currentPlayerGestureTarget == PLAYER_GESTURE_ONE ? "<color=#FF00FF>" : "<color=yellow>",
-            count, MAX_TRAIN_COUNT,
-            currentPlayerGestureTarget == PLAYER_GESTURE_ONE ? "Gesture #1" : "Gesture #2");
-        if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget != PLAYER_GESTURE_TWO)
+            color, count, MAX_TRAIN_COUNT, gesture);
+
+        if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget == PLAYER_GESTURE_WALK)
         {
             currentPlayerGestureTarget++;
             textToUpdate = null; // UI will be handled by next UI action
             nextUiAction = () => {
                 StopCoroutine(uiFeedback);
-                EnterGesture(PLAYER_GESTURE_TWO);
+                EnterGesture(PLAYER_GESTURE_LEFT);
                 hasSetupGestureOne = true;
             };
         }
-        else if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget >= PLAYER_GESTURE_TWO)
+        else if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget == PLAYER_GESTURE_LEFT)
+        {
+            currentPlayerGestureTarget++;
+            textToUpdate = null; // UI will be handled by next UI action
+            nextUiAction = () => {
+                StopCoroutine(uiFeedback);
+                EnterGesture(PLAYER_GESTURE_RIGHT);
+                hasSetupGestureTwo = true;
+            };
+        }
+        else if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget >= PLAYER_GESTURE_RIGHT)
         {
             textToUpdate = null; // UI will be handled by next UI action
             nextUiAction = () => {
                 SwitchToIdentify();
-                hasSetupGestureTwo = true;
+                Save();
+                hasSetupGestureThree = true;
             };
         }
         else
@@ -98,32 +135,49 @@ public class Gesture : GestureHandler
     {
         StopCoroutine(uiFeedback);
         Manager.SetPlayerGesture(new List<int> {
-                PLAYER_GESTURE_ONE,
-                PLAYER_GESTURE_TWO
+                PLAYER_GESTURE_WALK,
+                PLAYER_GESTURE_LEFT,
+                PLAYER_GESTURE_RIGHT
             }, true);
         textResult.text = defaultResultText = string.Format("Write gestures you just trained\nin AddPlayerGesture.\nPress the Application key to reset");
         textMode.text = string.Format("Mode: {0}", Manager.Mode.IdentifyPlayerGesture.ToString());
         Manager.SetMode(Manager.Mode.IdentifyPlayerGesture);
-        Manager.SetTarget(new List<int> { PLAYER_GESTURE_ONE, PLAYER_GESTURE_TWO });
+        Manager.SetTarget(new List<int> { PLAYER_GESTURE_WALK, PLAYER_GESTURE_LEFT, PLAYER_GESTURE_RIGHT });
+    }
 
+    void Save()
+    {
+        // Delete if found Existing file
         if (File.Exists(Manager.datapath))
         {
             File.Delete(Manager.datapath);
         }
+        // Create new file & Open it
         StreamWriter output = File.CreateText(Manager.datapath);
+        // Write Data Header
         output.WriteLine("ID, Data[]");
-        foreach(var s in Manager.lines)
+        // Write down all recorded gestures
+        foreach (var s in Manager.lines)
         {
             output.WriteLine(s);
         }
-
+        // Close file
         output.Close();
     }
 
     void EnterGesture(int target)
     {
-        textResult.text = defaultResultText = string.Format("Think of a gesture\nWrite it 5 times~\n{0}",
-            target == PLAYER_GESTURE_ONE ? "<color=#FF00FF>Gesture #1</color>" : "<color=yellow>Gesture #2</color>");
+        // Set up string for textResult
+        string gestureTarget = "";
+        if (target == PLAYER_GESTURE_WALK)
+            gestureTarget = GESTURE_WALK;
+        else if (target == PLAYER_GESTURE_LEFT)
+            gestureTarget = GESTURE_LEFT;
+        else if (target == PLAYER_GESTURE_RIGHT)
+            gestureTarget = GESTURE_RIGHT;
+
+        textResult.text = defaultResultText = string.Format("Think of a gesture\nWrite it 12 times~\n{0}",
+            gestureTarget);
         textMode.text = string.Format("Mode: {0}", Manager.Mode.AddPlayerGesture.ToString());
         Manager.SetMode(Manager.Mode.AddPlayerGesture);
         Manager.SetTarget(new List<int> { target });
@@ -131,15 +185,21 @@ public class Gesture : GestureHandler
 
         if (hasSetupGestureOne)
         {
-            Debug.Log("Delete Gesture One");
-            Manager.DeletePlayerRecord(PLAYER_GESTURE_ONE);
+            Debug.Log("Delete Gesture Walk");
+            Manager.DeletePlayerRecord(PLAYER_GESTURE_WALK);
             hasSetupGestureOne = false;
         }
         if (hasSetupGestureTwo)
         {
-            Debug.Log("Delete Gesture Two");
-            Manager.DeletePlayerRecord(PLAYER_GESTURE_TWO);
+            Debug.Log("Delete Gesture Left");
+            Manager.DeletePlayerRecord(PLAYER_GESTURE_LEFT);
             hasSetupGestureTwo = false;
+        }
+        if (hasSetupGestureThree)
+        {
+            Debug.Log("Delete Gesture Right");
+            Manager.DeletePlayerRecord(PLAYER_GESTURE_RIGHT);
+            hasSetupGestureThree = false;
         }
     }
 
@@ -153,13 +213,13 @@ public class Gesture : GestureHandler
         instruction.SetActive(false);
         ToggleGestureImage("");
 
-        // Configure  by specifying target 
-        //playerGestureAdd = new Manager.OnPlayerGestureAdd(HandleOnPlayerGestureAdd);
-        //Manager.onPlayerGestureAdd += playerGestureAdd;
+        // Configure by specifying target 
+        playerGestureAdd = new Manager.OnPlayerGestureAdd(HandleOnPlayerGestureAdd);
+        Manager.onPlayerGestureAdd += playerGestureAdd;
         playerGestureMatch = new Manager.OnPlayerGestureMatch(HandleOnPlayerGestureMatch);
         Manager.onPlayerGestureMatch += playerGestureMatch;
 
-        //EnterGesture(PLAYER_GESTURE_ONE);
+        EnterGesture(PLAYER_GESTURE_WALK);
 
         Manager.SetTriggerStartKeys(
             Manager.Controller.RIGHT_HAND,
@@ -174,23 +234,10 @@ public class Gesture : GestureHandler
 
     }
 
-    private void Start()
-    {
-        Manager.LoadCache();
-        Manager.SetPlayerGesture(new List<int> {
-                PLAYER_GESTURE_ONE,
-                PLAYER_GESTURE_TWO
-            }, true);
-        textResult.text = defaultResultText = string.Format("Write gestures you just trained\nin AddPlayerGesture.\nPress the Application key to reset");
-        textMode.text = string.Format("Mode: {0}", Manager.Mode.IdentifyPlayerGesture.ToString());
-        Manager.SetMode(Manager.Mode.IdentifyPlayerGesture);
-        Manager.SetTarget(new List<int> { PLAYER_GESTURE_ONE, PLAYER_GESTURE_TWO });
-    }
-
     void OnDestroy()
     {
         // Unregistering callback
-        //Manager.onPlayerGestureAdd -= playerGestureAdd;
+        Manager.onPlayerGestureAdd -= playerGestureAdd;
         Manager.onPlayerGestureMatch -= playerGestureMatch;
     }
 
@@ -198,21 +245,23 @@ public class Gesture : GestureHandler
     {
         UpdateUIandHandleControl();
 
-        //if (-1 != (int)leftHandControl.index)
-        //{
-        //    var device = SteamVR_Controller.Input((int)leftHandControl.index);
-        //    if (device.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
-        //    {
-        //        EnterGesture(PLAYER_GESTURE_ONE);
-        //    }
-        //}
-        //if (-1 != (int)rightHandControl.index)
-        //{
-        //    var device = SteamVR_Controller.Input((int)rightHandControl.index);
-        //    if (device.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
-        //    {
-        //        EnterGesture(PLAYER_GESTURE_ONE);
-        //    }
-        //}
+        if (-1 != (int)leftHandControl.index)
+        {
+            var device = SteamVR_Controller.Input((int)leftHandControl.index);
+            if (device.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
+            {
+                EnterGesture(PLAYER_GESTURE_WALK);
+                Manager.lines.Clear();
+            }
+        }
+        if (-1 != (int)rightHandControl.index)
+        {
+            var device = SteamVR_Controller.Input((int)rightHandControl.index);
+            if (device.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
+            {
+                EnterGesture(PLAYER_GESTURE_WALK);
+                Manager.lines.Clear();
+            }
+        }
     }
 }
