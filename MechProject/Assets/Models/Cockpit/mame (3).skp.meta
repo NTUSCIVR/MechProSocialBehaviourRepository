@@ -1,0 +1,317 @@
+fileFormatVersion: 2
+guid: 540bbb7c1030b244c92b2941abafbd72
+SketchUpImporter:
+  generateBackFace: 0
+  mergeCoplanarFaces: 0
+  selectedNodes: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000
+  assetHash:
+    serializedVersion: 2
+    Hash: 93c42411029c0b3854e24042356bb82c
+  longitude: -105.283
+  latitude: 40.017
+  northCorrection: -0
+  fileUnit: 0
+  sketchUpImportData:
+    defaultCamera:
+      position: {x: -4.4090614, y: 1.0202228, z: 1.181057}
+      lookAt: {x: 10.062025, y: -0.18699409, z: 14.0892935}
+      up: {x: 0.046367995, y: 0.9980678, z: 0.04136034}
+      fov: 31.723488
+      aspectRatio: 0
+      orthoSize: 1
+      isPerspective: 1
+    scenes:
+    - camera:
+        position: {x: -4.4090614, y: 1.0202228, z: 1.181057}
+        lookAt: {x: 10.062025, y: -0.18699409, z: 14.0892935}
+        up: {x: 0.046367995, y: 0.9980678, z: 0.04136034}
+        fov: 31.723488
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: cockpit
+    - camera:
+        position: {x: 0.47078636, y: 3.9365664, z: 1.1298094}
+        lookAt: {x: -2.9585183, y: 0.65008014, z: 2.346135}
+        up: {x: -0.63172555, y: 0.7421039, z: 0.22406404}
+        fov: 31.723488
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: EXTERIOR
+    - camera:
+        position: {x: -2.3954003, y: 1.1054572, z: 1.587737}
+        lookAt: {x: -4.4133606, y: 0.79095334, z: 3.5725234}
+        up: {x: -0.07873323, y: 0.99388343, z: 0.0774389}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: left consol
+    - camera:
+        position: {x: -1.6102176, y: 1.2161955, z: 1.2231281}
+        lookAt: {x: -4.100132, y: 0.75310326, z: 2.525559}
+        up: {x: -0.14408733, y: 0.9866906, z: 0.07536958}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: left consol dim
+    - camera:
+        position: {x: -2.1870372, y: 0.896868, z: 1.949802}
+        lookAt: {x: -4.814166, y: 1.039545, z: 3.0398886}
+        up: {x: 0.046273917, y: 0.99874425, z: -0.019200644}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: left cntrl anno
+    - camera:
+        position: {x: -2.9020307, y: 1.2747481, z: 2.3905745}
+        lookAt: {x: -5.0920568, y: 1.0019478, z: 0.59062415}
+        up: {x: -0.07400322, y: 0.9954015, z: -0.06082217}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: Left Rear Upper
+    - camera:
+        position: {x: -5.6916213, y: 1.5425247, z: 2.954417}
+        lookAt: {x: -3.0536833, y: 0.5695068, z: 2.5016785}
+        up: {x: 0.33673984, y: 0.93982244, z: -0.057793297}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: left cntrl anno 2
+    - camera:
+        position: {x: -3.6218193, y: 1.4442178, z: 0.650626}
+        lookAt: {x: -0.9433633, y: 0.025265535, z: 3.8101735}
+        up: {x: 0.2095651, y: 0.94602937, z: 0.2472062}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: right consol
+    - camera:
+        position: {x: -3.5337343, y: 0.9829201, z: 1.1742831}
+        lookAt: {x: -0.72390854, y: 0.9528029, z: 4.532}
+        up: {x: 0.004414457, y: 0.99997634, z: 0.0052752374}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: right consol anno
+    - camera:
+        position: {x: -2.6331797, y: 1.3159204, z: 2.3943863}
+        lookAt: {x: -1.0263056, y: 0.8115302, z: -1.6471277}
+        up: {x: 0.04256188, y: 0.99334234, z: -0.107049115}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: right rear upper
+    - camera:
+        position: {x: -1.6637245, y: 1.1956258, z: 1.6733549}
+        lookAt: {x: -4.2356396, y: -1.7569183, z: 3.6324434}
+        up: {x: -0.53644204, y: 0.7384166, z: 0.40862066}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: Scene 11
+    - camera:
+        position: {x: -2.949171, y: 1.496825, z: 1.0888988}
+        lookAt: {x: -2.9468815, y: 1.0996176, z: 2.287409}
+        up: {x: 0.0006009897, y: 0.9492276, z: 0.31458962}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: seat view
+    - camera:
+        position: {x: -3.2243612, y: 1.5292156, z: 1.7083514}
+        lookAt: {x: -2.9172428, y: 1.0749533, z: 2.8456857}
+        up: {x: 0.09379269, y: 0.933038, z: 0.3473371}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: Center-Conduit
+    - camera:
+        position: {x: -7.571761, y: 2.7360406, z: 1.7744013}
+        lookAt: {x: -6.45415, y: 2.2226534, z: 2.0600336}
+        up: {x: 0.3939427, y: 0.9136041, z: 0.1006815}
+        fov: 35
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: DOOR
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: E
+    100002: Group 15
+    100004: Group 17
+    100006: Group 19
+    100008: Group 21
+    100010: Group 3
+    100012: Group 5
+    100014: Group 7
+    100016: Group 9
+    100018: Group#6
+    100020: Image 18
+    100022: Image 2
+    100024: //RootNode
+    400000: E
+    400002: Group 15
+    400004: Group 17
+    400006: Group 19
+    400008: Group 21
+    400010: Group 3
+    400012: Group 5
+    400014: Group 7
+    400016: Group 9
+    400018: Group#6
+    400020: Image 18
+    400022: Image 2
+    400024: //RootNode
+    2100000: _defaultMat
+    2100002: 482[1]
+    2100004: 5210[1]
+    2100006: Circle%20Panel%20001[1]
+    2100008: DarkCyan
+    2100010: '[Metal_Rough]'
+    2100012: '[Metal_Embossed]'
+    2100014: Material 7
+    2100016: '[Color_001]'
+    2100018: '[Metal_Aluminum_Anodized]'
+    2100020: '[Color_006]'
+    2100022: '[Color_008]'
+    2100024: '[Color_003]'
+    2100026: '[Color_002]'
+    2100028: '[_0137_Black_]'
+    2100030: '[_0135_DarkGray_]'
+    2100032: Material 16
+    2100034: _MidnightBlue_1
+    2100036: _Charcoal_
+    2100038: dell_logo2
+    2100040: _Gray_
+    2100042: Color_C24
+    2300000: E
+    2300002: Group 15
+    2300004: Group 19
+    2300006: Group 21
+    2300008: Group 3
+    2300010: Group 5
+    2300012: Group 7
+    2300014: Group 9
+    2300016: Group#6
+    2300018: Image 18
+    2300020: Image 2
+    2300022: //RootNode
+    3300000: E
+    3300002: Group 15
+    3300004: Group 19
+    3300006: Group 21
+    3300008: Group 3
+    3300010: Group 5
+    3300012: Group 7
+    3300014: Group 9
+    3300016: Group#6
+    3300018: Image 18
+    3300020: Image 2
+    3300022: //RootNode
+    4300000: Mesh mame (3)
+    4300002: Mesh mame (3)
+    4300004: Mesh Group 3
+    4300006: Mesh Group 5
+    4300008: Mesh Group 7
+    4300010: Mesh E
+    4300012: Mesh Group 15
+    4300014: Mesh Group 17
+    4300016: Mesh Group 19
+    4300018: Mesh Group 21
+    4300020: Mesh Group#6
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 0
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.0254
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
