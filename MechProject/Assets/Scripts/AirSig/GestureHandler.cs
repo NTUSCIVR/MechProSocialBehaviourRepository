@@ -20,8 +20,6 @@ public class GestureHandler : MonoBehaviour
     // UI for displaying current status and operation results 
     public Text textMode;
     public Text textResult;
-    public GameObject instruction;
-    public GameObject cHeartDown;
 
     protected string textToUpdate;
 
@@ -35,67 +33,6 @@ public class GestureHandler : MonoBehaviour
     protected string GetDefaultIntructionText()
     {
         return DEFAULT_INSTRUCTION_TEXT;
-    }
-
-    protected void ToggleGestureImage(string target)
-    {
-        if ("All".Equals(target))
-        {
-            cHeartDown.SetActive(true);
-            foreach (Transform child in cHeartDown.transform)
-            {
-                child.gameObject.SetActive(true);
-            }
-        }
-        else if ("Heart".Equals(target))
-        {
-            cHeartDown.SetActive(true);
-            foreach (Transform child in cHeartDown.transform)
-            {
-                if (child.name == "Heart")
-                {
-                    child.gameObject.SetActive(true);
-                }
-                else
-                {
-                    child.gameObject.SetActive(false);
-                }
-            }
-        }
-        else if ("C".Equals(target))
-        {
-            cHeartDown.SetActive(true);
-            foreach (Transform child in cHeartDown.transform)
-            {
-                if (child.name == "C")
-                {
-                    child.gameObject.SetActive(true);
-                }
-                else
-                {
-                    child.gameObject.SetActive(false);
-                }
-            }
-        }
-        else if ("Down".Equals(target))
-        {
-            cHeartDown.SetActive(true);
-            foreach (Transform child in cHeartDown.transform)
-            {
-                if (child.name == "Down")
-                {
-                    child.gameObject.SetActive(true);
-                }
-                else
-                {
-                    child.gameObject.SetActive(false);
-                }
-            }
-        }
-        else
-        {
-            cHeartDown.SetActive(false);
-        }
     }
 
     protected IEnumerator setResultTextForSeconds(string text, float seconds, string defaultText = "")
@@ -113,8 +50,6 @@ public class GestureHandler : MonoBehaviour
         {
             textResult.text = "<color=red>Cannot find DB files!\nMake sure\n'Assets/AirSig/StreamingAssets'\nis copied to\n'Assets/StreamingAssets'</color>";
             textMode.text = "";
-            instruction.SetActive(false);
-            cHeartDown.SetActive(false);
         }
     }
 

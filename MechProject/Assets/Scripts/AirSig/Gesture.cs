@@ -210,8 +210,6 @@ public class Gesture : GestureHandler
 
         // Update the display text
         textResult.alignment = TextAnchor.UpperCenter;
-        instruction.SetActive(false);
-        ToggleGestureImage("");
 
         // Configure by specifying target 
         playerGestureAdd = new Manager.OnPlayerGestureAdd(HandleOnPlayerGestureAdd);

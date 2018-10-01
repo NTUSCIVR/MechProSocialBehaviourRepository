@@ -2258,11 +2258,11 @@ namespace My
                 long ID = 0;
                 if(long.TryParse(values[0], out ID))
                 {
-                    Debug.Log("ID: " + ID);
+                    //Debug.Log("ID: " + ID);
                 }
                 else
                 {
-                    Debug.Log(values[0] + "[Cannot be parsed into long]");
+                    //Debug.Log(values[0] + "[Cannot be parsed into long]");
                 }
 
                 // Get Data[]
@@ -2272,11 +2272,11 @@ namespace My
                 {
                     if(float.TryParse(datastr[i], out datas[i]))
                     {
-                        Debug.Log("datas[i]: " + datas[i]);
+                        //Debug.Log("datas[i]: " + datas[i]);
                     }
                     else
                     {
-                        Debug.Log(datastr[i] + "[Cannot be parsed into float]");
+                        //Debug.Log(datastr[i] + "[Cannot be parsed into float]");
                     }
                 }
                 holder.Add(ID, datas);
@@ -3072,7 +3072,9 @@ namespace My
         Valve.VR.CVRSystem mCVRSystem;
 
         bool mIsInitReady = false;
+        [HideInInspector]
         public string datapath;
+        [HideInInspector]
         public List<string> lines = new List<string>();
         void Awake()
         {
