@@ -9,22 +9,19 @@ public class Gesture : GestureHandler
     // Gesture index to use for training and verifying custom gesture. Valid range is between 1 and 1000
     // Beware that setting to 100 will overwrite your player signature.
     readonly int PLAYER_GESTURE_WALK = 101;
-    readonly int PLAYER_GESTURE_LEFT = 102;
-    readonly int PLAYER_GESTURE_RIGHT = 103;
+    readonly int PLAYER_GESTURE_SWIPE = 102;
 
     readonly string GESTURE_WALK = "<color=#FF00FF>Gesture #WALK</color>";
-    readonly string GESTURE_LEFT = "<color=yellow>Gesture #LEFT</color>";
-    readonly string GESTURE_RIGHT = "<color=#00FFFF>Gesture #RIGHT</color>";
+    readonly string GESTURE_SWIPE = "<color=yellow>Gesture #SWIPE</color>";
 
     // How many gesture we need to collect for each gesture type
-    readonly int MAX_TRAIN_COUNT = 12;
+    readonly int MAX_TRAIN_COUNT = 33;
 
     // Use these steps to iterate gesture when train 'Smart Train' and 'Custom Gesture'
     int currentPlayerGestureTarget; // 101 = GESTURE_WALK, 102 = GESTURE_LEFT, 103 = GESTURE_RIGHT
 
     bool hasSetupGestureOne = false;
     bool hasSetupGestureTwo = false;
-    bool hasSetupGestureThree = false;
 
     // Callback for receiving signature/gesture progression or identification results
     Manager.OnPlayerGestureMatch playerGestureMatch;
@@ -47,13 +44,9 @@ public class Gesture : GestureHandler
             {
                 result = string.Format("<color=#FF00FF>Closest Custom Gesture Gesture #WALK</color>");
             }
-            else if (PLAYER_GESTURE_LEFT == match)
+            else if (PLAYER_GESTURE_SWIPE == match)
             {
                 result = string.Format("<color=yellow>Closest Custom Gesture Gesture #LEFT</color>");
-            }
-            else if (PLAYER_GESTURE_RIGHT == match)
-            {
-                result = string.Format("<color=#00FFFF>Closest Custom Gesture Gesture #RIGHT</color>");
             }
 
             // Check whether this gesture match any custom gesture in the database
@@ -82,15 +75,10 @@ public class Gesture : GestureHandler
             color = "<color=#FF00FF>";
             gesture = "Gesture #WALK";
         }
-        else if (currentPlayerGestureTarget == PLAYER_GESTURE_LEFT)
+        else if (currentPlayerGestureTarget == PLAYER_GESTURE_SWIPE)
         {
             color = "<color=yellow>";
-            gesture = "Gesture #LEFT";
-        }
-        else if (currentPlayerGestureTarget == PLAYER_GESTURE_RIGHT)
-        {
-            color = "<color=#00FFFF>";
-            gesture = "Gesture #RIGHT";
+            gesture = "Gesture #SWIPE";
         }
 
         textToUpdate = string.Format("{0}{1}/{2} gesture(s) collected for {3}\nContinue to collect more samples</color>",
@@ -102,27 +90,17 @@ public class Gesture : GestureHandler
             textToUpdate = null; // UI will be handled by next UI action
             nextUiAction = () => {
                 StopCoroutine(uiFeedback);
-                EnterGesture(PLAYER_GESTURE_LEFT);
+                EnterGesture(PLAYER_GESTURE_SWIPE);
                 hasSetupGestureOne = true;
             };
         }
-        else if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget == PLAYER_GESTURE_LEFT)
-        {
-            currentPlayerGestureTarget++;
-            textToUpdate = null; // UI will be handled by next UI action
-            nextUiAction = () => {
-                StopCoroutine(uiFeedback);
-                EnterGesture(PLAYER_GESTURE_RIGHT);
-                hasSetupGestureTwo = true;
-            };
-        }
-        else if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget >= PLAYER_GESTURE_RIGHT)
+        else if (count >= MAX_TRAIN_COUNT && currentPlayerGestureTarget >= PLAYER_GESTURE_SWIPE)
         {
             textToUpdate = null; // UI will be handled by next UI action
             nextUiAction = () => {
                 SwitchToIdentify();
                 Save();
-                hasSetupGestureThree = true;
+                hasSetupGestureTwo = true;
             };
         }
         else
@@ -136,13 +114,12 @@ public class Gesture : GestureHandler
         StopCoroutine(uiFeedback);
         Manager.SetPlayerGesture(new List<int> {
                 PLAYER_GESTURE_WALK,
-                PLAYER_GESTURE_LEFT,
-                PLAYER_GESTURE_RIGHT
+                PLAYER_GESTURE_SWIPE
             }, true);
         textResult.text = defaultResultText = string.Format("Write gestures you just trained\nin AddPlayerGesture.\nPress the Application key to reset");
         textMode.text = string.Format("Mode: {0}", Manager.Mode.IdentifyPlayerGesture.ToString());
         Manager.SetMode(Manager.Mode.IdentifyPlayerGesture);
-        Manager.SetTarget(new List<int> { PLAYER_GESTURE_WALK, PLAYER_GESTURE_LEFT, PLAYER_GESTURE_RIGHT });
+        Manager.SetTarget(new List<int> { PLAYER_GESTURE_WALK, PLAYER_GESTURE_SWIPE });
     }
 
     void Save()
@@ -171,12 +148,10 @@ public class Gesture : GestureHandler
         string gestureTarget = "";
         if (target == PLAYER_GESTURE_WALK)
             gestureTarget = GESTURE_WALK;
-        else if (target == PLAYER_GESTURE_LEFT)
-            gestureTarget = GESTURE_LEFT;
-        else if (target == PLAYER_GESTURE_RIGHT)
-            gestureTarget = GESTURE_RIGHT;
+        else if (target == PLAYER_GESTURE_SWIPE)
+            gestureTarget = GESTURE_SWIPE;
 
-        textResult.text = defaultResultText = string.Format("Think of a gesture\nWrite it 12 times~\n{0}",
+        textResult.text = defaultResultText = string.Format("Think of a gesture\nWrite it 33 times~\n{0}",
             gestureTarget);
         textMode.text = string.Format("Mode: {0}", Manager.Mode.AddPlayerGesture.ToString());
         Manager.SetMode(Manager.Mode.AddPlayerGesture);
@@ -192,14 +167,8 @@ public class Gesture : GestureHandler
         if (hasSetupGestureTwo)
         {
             Debug.Log("Delete Gesture Left");
-            Manager.DeletePlayerRecord(PLAYER_GESTURE_LEFT);
+            Manager.DeletePlayerRecord(PLAYER_GESTURE_SWIPE);
             hasSetupGestureTwo = false;
-        }
-        if (hasSetupGestureThree)
-        {
-            Debug.Log("Delete Gesture Right");
-            Manager.DeletePlayerRecord(PLAYER_GESTURE_RIGHT);
-            hasSetupGestureThree = false;
         }
     }
 
