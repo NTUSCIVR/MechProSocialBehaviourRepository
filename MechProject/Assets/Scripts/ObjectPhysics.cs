@@ -2,7 +2,7 @@
 
 // Add onto "Pusher" GameObject
 // Used to Push objects in the direction of "Pusher"
-// Note: Both "Pusher" and "Being Pushed" GameObjects require Rigidbody Component
+// Note: Both "Pusher" and "Being Pushed" GameObjects require Rigidbody Component and Collider Component
 public class ObjectPhysics : MonoBehaviour
 {
     [Tooltip("Force of pushing.(Higher means object pushed further;Lower means object pushed closer) Default: 3.0f")]
@@ -16,8 +16,8 @@ public class ObjectPhysics : MonoBehaviour
         if (!CollidedBody || CollidedBody.isKinematic)
             return;
 
-        Vector3 PushDirection = new Vector3(MyBody.velocity.x, 0, MyBody.velocity.z);
+        Vector3 PushDirection = new Vector3(MyBody.velocity.x, MyBody.velocity.y, MyBody.velocity.z);
 
-        CollidedBody.AddForce(PushDirection);
+        CollidedBody.AddForce(PushDirection * PushPower);
     }
 }
