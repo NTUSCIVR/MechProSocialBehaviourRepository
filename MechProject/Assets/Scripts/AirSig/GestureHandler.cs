@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using My;
 
@@ -69,6 +70,12 @@ public class GestureHandler : MonoBehaviour
 
         if (-1 != (int)leftHandControl.index)
         {
+            // In MainScene, only draw trail when ring is attached
+            if(SceneManager.GetActiveScene().name.Equals("MainScene"))
+            {
+                if(!MainSceneController.instance.leftAttached)
+                    return;
+            }
             var device = SteamVR_Controller.Input((int)leftHandControl.index);
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
             {
@@ -83,6 +90,12 @@ public class GestureHandler : MonoBehaviour
 
         if (-1 != (int)rightHandControl.index)
         {
+            // In MainScene, only draw trail when ring is attached
+            if (SceneManager.GetActiveScene().name.Equals("MainScene"))
+            {
+                if (!MainSceneController.instance.rightAttached)
+                    return;
+            }
             var device = SteamVR_Controller.Input((int)rightHandControl.index);
             if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
             {

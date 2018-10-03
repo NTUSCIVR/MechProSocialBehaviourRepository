@@ -8,8 +8,7 @@ public class IdentifyGesture : GestureHandler
     // Gesture index to use for training and verifying custom gesture. Valid range is between 1 and 1000
     // Beware that setting to 100 will overwrite your player signature.
     readonly int PLAYER_GESTURE_WALK = 101;
-    readonly int PLAYER_GESTURE_LEFT = 102;
-    readonly int PLAYER_GESTURE_RIGHT = 103;
+    readonly int PLAYER_GESTURE_SWIPE = 102;
 
     [Header("Animation stuffs")]
     [Tooltip("Coloured_War_Robot")]
@@ -40,18 +39,18 @@ public class IdentifyGesture : GestureHandler
     // match - the index that match or -1 if no match. The match index must be one in the SetTarget()
     void HandleOnPlayerGestureMatch(long gestureId, int match)
     {
-        if (gestureId != 0)
+        if (gestureId != 0 &&
+            MainSceneController.instance.leftAttached &&
+            MainSceneController.instance.rightAttached)
         {
             if (PLAYER_GESTURE_WALK == match)
             {
                 bobbing = true;
             }
-            else if (PLAYER_GESTURE_LEFT == match)
+            else if (PLAYER_GESTURE_SWIPE == match)
             {
+                //TODO: Record starting point and ending point to determine direction
                 swipingLeft = true;
-            }
-            else if (PLAYER_GESTURE_RIGHT == match)
-            {
                 swipingRight = true;
             }
         }
@@ -72,11 +71,10 @@ public class IdentifyGesture : GestureHandler
         // Sets current mode to Identify Player Gesture
         Manager.SetPlayerGesture(new List<int> {
                 PLAYER_GESTURE_WALK,
-                PLAYER_GESTURE_LEFT,
-                PLAYER_GESTURE_RIGHT
+                PLAYER_GESTURE_SWIPE
             }, true);
         Manager.SetMode(Manager.Mode.IdentifyPlayerGesture);
-        Manager.SetTarget(new List<int> { PLAYER_GESTURE_WALK, PLAYER_GESTURE_LEFT, PLAYER_GESTURE_RIGHT });
+        Manager.SetTarget(new List<int> { PLAYER_GESTURE_WALK, PLAYER_GESTURE_SWIPE });
 
         Manager.SetTriggerStartKeys(
             Manager.Controller.RIGHT_HAND,
