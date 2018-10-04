@@ -13,7 +13,7 @@ namespace My
 {
     public class Manager : MonoBehaviour
     {
-
+        public SteamVR_Camera headSet;
         /// Enable debug logging
         public static bool DEBUG_LOG_ENABLED = true;
 
@@ -2781,6 +2781,17 @@ namespace My
             mRightHandPrevTimeElapsed = 0;
             mRightHandStopWatch.Stop();
             mRightHandStopWatch.Reset();
+
+            // Track Pos of Controller
+            int rightHandIndex = (int)mCVRSystem.GetTrackedDeviceIndexForControllerRole(Valve.VR.ETrackedControllerRole.RightHand);
+            if (rightHandIndex != -1)
+            {
+                var rightHandDevice = SteamVR_Controller.Input(rightHandIndex);
+                Valve.VR.TrackedDevicePose_t pose = rightHandDevice.GetPose();
+                SteamVR_Utils.RigidTransform transform = new SteamVR_Utils.RigidTransform(pose.mDeviceToAbsoluteTracking);
+
+                GestureHandler.StartPoint = transform.pos;
+            }
         }
 
         void startLeftHandCollecting()
@@ -2790,9 +2801,20 @@ namespace My
             mLeftHandPrevTimeElapsed = 0;
             mLeftHandStopWatch.Stop();
             mLeftHandStopWatch.Reset();
+
+            // Track Pos of Controller
+            int leftHandIndex = (int)mCVRSystem.GetTrackedDeviceIndexForControllerRole(Valve.VR.ETrackedControllerRole.LeftHand);
+            if (leftHandIndex != -1)
+            {
+                var leftHandDevice = SteamVR_Controller.Input(leftHandIndex);
+                Valve.VR.TrackedDevicePose_t pose = leftHandDevice.GetPose();
+                SteamVR_Utils.RigidTransform transform = new SteamVR_Utils.RigidTransform(pose.mDeviceToAbsoluteTracking);
+
+                GestureHandler.StartPoint = transform.pos;
+            }
         }
 
-        void stopRightHandCollecting()
+            void stopRightHandCollecting()
         {
             if (DEBUG_LOG_ENABLED) Debug.Log(string.Format("[AirSigManager] RightHand stopped collecting... {0} samples", mCollectedRightHandSamples.Count));
             mIsCollectingRightControllerData = false;
@@ -2805,6 +2827,17 @@ namespace My
             mCollectedRightHandSamples.Clear();
             mRightHandStopWatch.Stop();
             mRightHandStopWatch.Reset();
+            
+            // Track Pos of Controller
+            int rightHandIndex = (int)mCVRSystem.GetTrackedDeviceIndexForControllerRole(Valve.VR.ETrackedControllerRole.RightHand);
+            if (rightHandIndex != -1)
+            {
+                var rightHandDevice = SteamVR_Controller.Input(rightHandIndex);
+                Valve.VR.TrackedDevicePose_t pose = rightHandDevice.GetPose();
+                SteamVR_Utils.RigidTransform transform = new SteamVR_Utils.RigidTransform(pose.mDeviceToAbsoluteTracking);
+
+                GestureHandler.EndPoint = transform.pos;
+            }
         }
 
         void stopLeftHandCollecting()
@@ -2820,6 +2853,17 @@ namespace My
             mCollectedLeftHandSamples.Clear();
             mLeftHandStopWatch.Stop();
             mLeftHandStopWatch.Reset();
+
+            // Track Pos of Controller
+            int leftHandIndex = (int)mCVRSystem.GetTrackedDeviceIndexForControllerRole(Valve.VR.ETrackedControllerRole.LeftHand);
+            if (leftHandIndex != -1)
+            {
+                var leftHandDevice = SteamVR_Controller.Input(leftHandIndex);
+                Valve.VR.TrackedDevicePose_t pose = leftHandDevice.GetPose();
+                SteamVR_Utils.RigidTransform transform = new SteamVR_Utils.RigidTransform(pose.mDeviceToAbsoluteTracking);
+
+                GestureHandler.EndPoint = transform.pos;
+            }
         }
 
         System.Diagnostics.Stopwatch mRightHandStopWatch = new System.Diagnostics.Stopwatch();
@@ -2829,11 +2873,16 @@ namespace My
 
         void Update()
         {
+            // Track Eye Transform
+            GestureHandler.EyeForward = headSet.transform.forward;
+            GestureHandler.EyeUp = headSet.transform.up;
+
             if (mCVRSystem == null)
             {
                 Debug.LogWarning("Unable to find the VR system");
                 return;
             }
+            
             // Determine right hand status
             int rightHandIndex = (int)mCVRSystem.GetTrackedDeviceIndexForControllerRole(Valve.VR.ETrackedControllerRole.RightHand);
             if (rightHandIndex != -1)

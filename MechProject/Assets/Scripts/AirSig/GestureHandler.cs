@@ -12,6 +12,7 @@ public class GestureHandler : MonoBehaviour
     public Manager Manager;
 
     // Reference to the vive controllers for handing key pressing
+    public SteamVR_Camera headSet;
     public SteamVR_TrackedObject leftHandControl;
     public SteamVR_TrackedObject rightHandControl;
 
@@ -30,6 +31,9 @@ public class GestureHandler : MonoBehaviour
     // Set by the callback function to run this action in the next UI call
     protected Action nextUiAction;
     protected IEnumerator uiFeedback;
+
+     public static Vector3 StartPoint = Vector3.zero, EndPoint = Vector3.zero, DirectionVec = Vector3.zero, EyeForward = Vector3.zero, EyeUp = Vector3.zero;
+    protected int directionResult = 0;
 
     protected string GetDefaultIntructionText()
     {
@@ -113,6 +117,14 @@ public class GestureHandler : MonoBehaviour
             nextUiAction();
             nextUiAction = null;
         }
+    }
+
+    // StartPoint,EndPoint Track in Manager's HandCollecting functions
+    // EyeForward,EyeUp Track in Manager's Update()
+    protected void FindDirection()
+    {
+        DirectionVec = EndPoint - StartPoint;
+        directionResult = DirectionSolver.DeriveDirection(DirectionVec.normalized, EyeForward, EyeUp);
     }
 
 }

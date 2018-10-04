@@ -40,8 +40,8 @@ public class IdentifyGesture : GestureHandler
     void HandleOnPlayerGestureMatch(long gestureId, int match)
     {
         if (gestureId != 0 &&
-            MainSceneController.instance.leftAttached &&
-            MainSceneController.instance.rightAttached)
+            (MainSceneController.instance.leftAttached ||
+            MainSceneController.instance.rightAttached))
         {
             if (PLAYER_GESTURE_WALK == match)
             {
@@ -49,9 +49,18 @@ public class IdentifyGesture : GestureHandler
             }
             else if (PLAYER_GESTURE_SWIPE == match)
             {
-                //TODO: Record starting point and ending point to determine direction
-                swipingLeft = true;
-                swipingRight = true;
+                // Find Direction of the Swipe
+                FindDirection();
+                // Right
+                if (directionResult == 1)
+                {
+                    swipingRight = true;
+                }
+                // Left
+                else if(directionResult == -1)
+                {
+                    swipingLeft = true;
+                }
             }
         }
     }
