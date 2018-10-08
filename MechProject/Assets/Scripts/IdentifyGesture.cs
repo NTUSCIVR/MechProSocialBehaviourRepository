@@ -26,9 +26,9 @@ public class IdentifyGesture : GestureHandler
     public AnimationClip LeftSwipeAnimationClip;
     [Tooltip("SwipeRight. Under Asset/Animation")]
     public AnimationClip RightSwipeAnimationClip;
-    private bool bobbing = false;
-    private bool swipingLeft = false;
-    private bool swipingRight = false;
+    public bool bobbing = false;
+    public bool swipingLeft = false;
+    public bool swipingRight = false;
     
     // Callback for receiving signature/gesture progression or identification results
     Manager.OnPlayerGestureMatch playerGestureMatch;
