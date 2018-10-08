@@ -107,16 +107,16 @@ public class IdentifyGesture : GestureHandler
         UpdateUIandHandleControl();
 
         // if the name of current state of HeadAnimator is not "Bob", Play Bob animation
-        if (bobbing && !HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob"))
+        if (bobbing)
         {
             PlayBobAnimation();
         }
         // if the name of current state of ArmAnimators is not "Swipe", Play Swipe animation
-        else if (swipingLeft && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        else if (swipingLeft)
         {
             PlaySwipeLeftAnimation();
         }
-        else if (swipingRight && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        else if (swipingRight)
         {
             PlaySwipeRightAnimation();
         }
@@ -124,31 +124,40 @@ public class IdentifyGesture : GestureHandler
 
     public void PlayBobAnimation()
     {
-        // Robot Move Forward
-        Vector3 StartPoint = Robot.transform.position;
-        Vector3 EndPoint = new Vector3(Robot.transform.position.x,
-            Robot.transform.position.y,
-            Robot.transform.position.z + 5);
-        StartCoroutine(WaitAwhile(1.0f, StartPoint, EndPoint, 0.15f));
+        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob"))
+        {
+            // Robot Move Forward
+            Vector3 StartPoint = Robot.transform.position;
+            Vector3 EndPoint = new Vector3(Robot.transform.position.x,
+                Robot.transform.position.y,
+                Robot.transform.position.z + 5);
+            StartCoroutine(WaitAwhile(1.0f, StartPoint, EndPoint, 0.15f));
 
-        // Head Animation
-        HeadAnimator.Rebind();
-        HeadAnimator.Play("Bob");
-        StartCoroutine(Bobbing());
+            // Head Animation
+            HeadAnimator.Rebind();
+            HeadAnimator.Play("Bob");
+            StartCoroutine(Bobbing());
+        }
     }
 
     public void PlaySwipeLeftAnimation()
     {
-        LeftArmAnimator.Rebind();
-        LeftArmAnimator.Play("Swipe");
-        StartCoroutine(SwipingLeft());
+        if (!LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        {
+            LeftArmAnimator.Rebind();
+            LeftArmAnimator.Play("Swipe");
+            StartCoroutine(SwipingLeft());
+        }
     }
 
     public void PlaySwipeRightAnimation()
     {
-        RightArmAnimator.Rebind();
-        RightArmAnimator.Play("Swipe");
-        StartCoroutine(SwipingRight());
+        if (!RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        {
+            RightArmAnimator.Rebind();
+            RightArmAnimator.Play("Swipe");
+            StartCoroutine(SwipingRight());
+        }
     }
 
     // Used to move Robot slowly towards TargetPos

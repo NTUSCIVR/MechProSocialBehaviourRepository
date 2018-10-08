@@ -8,6 +8,7 @@ public enum SIDE
     RIGHT
 }
 
+//left to right swipe
 public class LeftSwipe : MonoBehaviour {
 
     public SIDE side;
@@ -22,15 +23,34 @@ public class LeftSwipe : MonoBehaviour {
 		
 	}
 
+    //placed in enter as if controller just enter the righthitbox, should immediately check
+    //if user alr had swiped from left to right
     private void OnTriggerEnter(Collider other)
     {
-        if(side == SIDE.LEFT)
+        if (other.GetComponent<SteamVR_TrackedObject>())
         {
-
+            if ((int)other.GetComponent<SteamVR_TrackedObject>().index == GestureHitboxController.instance.leftIndex)
+            {
+                if (side == SIDE.LEFT)
+                {
+                    GestureHitboxController.instance.OnSwipeLeft(side);
+                }
+            }
         }
-        else
-        {
+    }
 
+    //placed in exit as the timer should only countdown when user start to swipe from left to right
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<SteamVR_TrackedObject>())
+        {
+            if ((int)other.GetComponent<SteamVR_TrackedObject>().index == GestureHitboxController.instance.leftIndex)
+            {
+                if (side == SIDE.RIGHT)
+                {
+                    GestureHitboxController.instance.OnSwipeLeft(side);
+                }
+            }
         }
     }
 }
