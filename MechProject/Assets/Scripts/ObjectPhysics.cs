@@ -8,8 +8,25 @@ public class ObjectPhysics : MonoBehaviour
     [Tooltip("Force of pushing.(Higher means object pushed further;Lower means object pushed closer) Default: 3.0f")]
     [SerializeField]
     private float PushPower = 3.0f;
+
+    [SerializeField]
+    private GameObject LastDebris;
+    [SerializeField]
+    private Animator AmbulanceAnimator;
+    [SerializeField]
+    private AudioSource AmbulanceSiren;
+
     private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject == LastDebris)
+        {
+            if (!AmbulanceAnimator.GetCurrentAnimatorStateInfo(0).IsName("Drive"))
+            {
+                AmbulanceAnimator.Play("Drive");
+                AmbulanceSiren.Play();
+            }
+        }
+
         Rigidbody CollidedBody = collision.rigidbody;
         Rigidbody MyBody = GetComponent<Rigidbody>();
 
