@@ -3,35 +3,56 @@ using UnityEngine.UI;
 
 public class HangerSceneController : MonoBehaviour
 {
-
     public GameObject eyeLight;
-    public Text TextObject;
-    public string TextToShow = "This is a default sentence.";
-    public float DisplayRate = 0.1f;
+    public Canvas CanvasObject;
+    public string TextToShow = "This is a default sentence one.This is a default sentence two.This is a default sentence three";
+    public float DisplayRate = 1.0f;
+    public char[] Delimiters = { '.' };
 
+    private Text TextObject;
     private float timer = 0.0f;
-    private string TextThatIsShowing = "";
-    
-	// Update is called once per frame
-	void Update ()
-    {
-        if (TextToShow.Length >= 1)
-        {
-            timer += Time.deltaTime;
-            if (timer >= DisplayRate)
-            {
-                // Robot Eye Blinks
-                eyeLight.SetActive(!eyeLight.activeSelf);
+    private string[] TextsThatAreShowing;
+    private int SentenceCounter = 1;
+    private bool EndOfShowing = false;
 
-                // Add First Character of TextToShow into the Text UI
-                TextThatIsShowing += TextToShow[0];
-                TextToShow = TextToShow.Remove(0, 1);
-                TextObject.text = TextThatIsShowing;
+    private void Start()
+    {
+        // Get Text Under Canvas
+        TextObject = CanvasObject.transform.Find("Text").GetComponent<Text>();
+        // Split TextToShow with Delimiters into strings
+        TextsThatAreShowing = TextToShow.Split(Delimiters);
+
+        // Robot Eye Shine
+        eyeLight.SetActive(true);
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
+        // Stop Running Update if finish showing
+        if (EndOfShowing)
+            return;
+
+        timer += Time.deltaTime;
+        if (timer >= DisplayRate)
+        {
+            // Only try to show when Counter is within valid range
+            if (SentenceCounter <= TextsThatAreShowing.Length)
+            {
+                // Replaces the texts
+                TextObject.text = TextsThatAreShowing[SentenceCounter - 1];
+                TextObject.text += ".";
+                // Increment Counter & Reset Timer 
+                SentenceCounter++;
                 timer = 0.0f;
             }
+            else
+            {
+                // Finish Showing texts
+                CanvasObject.gameObject.SetActive(false);
+                EndOfShowing = true;
+            }
         }
-        else
-            eyeLight.SetActive(false);
 	}
 
     public void ChangeToNextScene()

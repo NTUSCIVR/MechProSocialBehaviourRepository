@@ -8712,9 +8712,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eyeLight: {fileID: 1517488762}
-  TextObject: {fileID: 1351306929}
-  TextToShow: This is a default sentence.
-  DisplayRate: 0.1
+  CanvasObject: {fileID: 1306974496}
+  TextToShow: This is a default sentence one.This is a default sentence two.This is
+    a default sentence three
+  DisplayRate: 1
+  Delimiters: 2e00
 --- !u!1 &1883812995
 GameObject:
   m_ObjectHideFlags: 0
