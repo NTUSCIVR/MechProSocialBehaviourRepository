@@ -8,14 +8,14 @@ public class GestureHitboxController : MonoBehaviour {
     public static GestureHitboxController instance;
     [Tooltip("Reference to IdentifyGesture script in scene")]
     public IdentifyGesture identifyGesture; 
-    [Tooltip("Time needed for gesture to get recognized")]
+    [Tooltip("Time needed for sideways gesture to get recognized")]
     public float swipeDelay = 1f;
 
     public bool swipingLeft = false;
-    public float leftSwipeTimer = 0f;
+    float leftSwipeTimer = 0f;
 
     public bool swipingRight = false;
-    public float rightSwipeTimer = 0f;
+    float rightSwipeTimer = 0f;
 
     public SteamVR_TrackedObject leftObj;
     public SteamVR_TrackedObject rightObj;
@@ -25,6 +25,15 @@ public class GestureHitboxController : MonoBehaviour {
 
     public int leftIndex;
     public int rightIndex;
+
+    public bool swipingForwardIn = false;
+    float forwardInSwipeTimer = 0f;
+    public bool swipingBackwardIn = false;
+    float backwardInSwipeTimer = 0f;
+    public bool swipingForwardOut = false;
+    float forwardOutSwipeTimer = 0f;
+    public bool swipingBackwardOut = false;
+    float backwardOutSwipeTimer = 0f;
 
     private void Awake()
     {
@@ -66,7 +75,47 @@ public class GestureHitboxController : MonoBehaviour {
             rightSwipeTimer += Time.deltaTime;
         }
 
-        if(leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+        if (swipingForwardIn)
+        {
+            if (forwardInSwipeTimer > swipeDelay * 2)
+            {
+                forwardInSwipeTimer = 0f;
+                swipingForwardIn = false;
+            }
+            forwardInSwipeTimer += Time.deltaTime;
+        }
+
+        if(swipingBackwardIn)
+        {
+            if(backwardInSwipeTimer > swipeDelay * 2)
+            {
+                backwardInSwipeTimer = 0f;
+                swipingBackwardIn = false;
+            }
+            backwardInSwipeTimer += Time.deltaTime;
+        }
+
+        if (swipingForwardOut)
+        {
+            if (forwardOutSwipeTimer > swipeDelay * 2)
+            {
+                forwardOutSwipeTimer = 0f;
+                swipingForwardOut = false;
+            }
+            forwardOutSwipeTimer += Time.deltaTime;
+        }
+
+        if (swipingBackwardOut)
+        {
+            if (backwardOutSwipeTimer > swipeDelay * 2)
+            {
+                backwardOutSwipeTimer = 0f;
+                swipingBackwardOut = false;
+            }
+            backwardOutSwipeTimer += Time.deltaTime;
+        }
+
+        if (leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
             Debug.Log("L trigger pressed");
         if (rightController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
             Debug.Log("R trigger pressed");
@@ -112,5 +161,43 @@ public class GestureHitboxController : MonoBehaviour {
                     }
                 }
             }
+    }
+
+    public void OnSwipeIn(FORWARD_SIDE side)
+    {
+        if(side == FORWARD_SIDE.FORWARD)
+        {
+            swipingForwardIn = true;
+            forwardInSwipeTimer = 0f;
+        }
+        else
+        {
+            swipingBackwardIn = true;
+            backwardInSwipeTimer = 0f;
+        }
+    }
+
+    public void OnSwipeOut(FORWARD_SIDE side)
+    {
+        if (side == FORWARD_SIDE.FORWARD)
+        {
+            swipingForwardOut = true;
+            forwardOutSwipeTimer = 0f;
+        }
+        else
+        {
+            swipingBackwardOut = true;
+            backwardOutSwipeTimer = 0f;
+        }
+    }
+
+    public void CheckForwardGesture()
+    {
+        if(swipingBackwardIn && swipingForwardIn && swipingForwardOut && swipingBackwardOut)
+        {
+            identifyGesture.PlayBobAnimation();
+            swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
+            backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
+        }
     }
 }

@@ -10,6 +10,8 @@ public enum FORWARD_SIDE
 
 public class ForwardSwipe : MonoBehaviour {
 
+    public FORWARD_SIDE side;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -20,13 +22,17 @@ public class ForwardSwipe : MonoBehaviour {
 		
 	}
 
+    //when the controller enters the hitbox
     private void OnTriggerEnter(Collider other)
     {
-        
+        GestureHitboxController.instance.CheckForwardGesture();
+        GestureHitboxController.instance.OnSwipeIn(side);
     }
 
+    //when the controller exits the hitbox
     private void OnTriggerExit(Collider other)
     {
-        
+        GestureHitboxController.instance.CheckForwardGesture();
+        GestureHitboxController.instance.OnSwipeOut(side);
     }
 }
