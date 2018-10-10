@@ -5,7 +5,8 @@ using UnityEngine;
 public enum SIDE
 {
     LEFT,
-    RIGHT
+    RIGHT,
+    DEFAULT
 }
 
 //right to left swipe using left hand

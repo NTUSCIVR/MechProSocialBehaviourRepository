@@ -10,6 +10,9 @@ public class IdentifyGesture : GestureHandler
     readonly int PLAYER_GESTURE_WALK = 101;
     readonly int PLAYER_GESTURE_SWIPE = 102;
 
+    [Tooltip("Distance to travel but movement action")]
+    public float moveDistance = 1f;
+
     [Header("Animation stuffs")]
     [Tooltip("Coloured_War_Robot")]
     public GameObject Robot;
@@ -130,7 +133,7 @@ public class IdentifyGesture : GestureHandler
             Vector3 StartPoint = Robot.transform.position;
             Vector3 EndPoint = new Vector3(Robot.transform.position.x,
                 Robot.transform.position.y,
-                Robot.transform.position.z + 5);
+                Robot.transform.position.z + moveDistance);
             StartCoroutine(WaitAwhile(1.0f, StartPoint, EndPoint, 0.15f));
 
             // Head Animation
