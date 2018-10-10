@@ -8,7 +8,8 @@ public enum SIDE
     RIGHT
 }
 
-//left to right swipe
+//right to left swipe using left hand
+//<----------|
 public class LeftSwipe : MonoBehaviour {
 
     public SIDE side;

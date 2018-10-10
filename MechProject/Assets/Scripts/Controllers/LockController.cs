@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LockController : MonoBehaviour {
 
+    public SIDE side;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -23,27 +25,28 @@ public class LockController : MonoBehaviour {
             {
                 if(!MainSceneController.instance.leftAttached)
                 {
-                    MainSceneController.instance.leftAttached = true;
-                    //attach to left hand
-                    MainSceneController.instance.AttachRing(other.gameObject);
-                    Destroy(gameObject);
+                    if (side == SIDE.LEFT)
+                    {
+                        MainSceneController.instance.leftAttached = true;
+                        //attach to left hand
+                        MainSceneController.instance.AttachRing(other.gameObject);
+                        Destroy(gameObject);
+                    }
                 }
             }
             else
             {
                 if(!MainSceneController.instance.rightAttached)
                 {
-                    MainSceneController.instance.rightAttached = true;
-                    //attach to right hand
-                    MainSceneController.instance.AttachRing(other.gameObject);
-                    Destroy(gameObject);
+                    if (side == SIDE.RIGHT)
+                    {
+                        MainSceneController.instance.rightAttached = true;
+                        //attach to right hand
+                        MainSceneController.instance.AttachRing(other.gameObject);
+                        Destroy(gameObject);
+                    }
                 }
             }
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Test");
     }
 }
