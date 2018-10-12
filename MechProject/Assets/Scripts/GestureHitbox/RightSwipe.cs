@@ -23,7 +23,7 @@ public class RightSwipe : MonoBehaviour {
     {
         if (other.GetComponent<SteamVR_TrackedObject>())
         {
-            if ((int)other.GetComponent<SteamVR_TrackedObject>().index == GestureHitboxController.instance.rightIndex)
+            if (other.gameObject == MainSceneController.instance.RightController)
             {
                 if (side == SIDE.RIGHT)
                 {
@@ -38,7 +38,7 @@ public class RightSwipe : MonoBehaviour {
     {
         if(other.GetComponent<SteamVR_TrackedObject>())
         {
-            if ((int)other.GetComponent<SteamVR_TrackedObject>().index == GestureHitboxController.instance.rightIndex)
+            if (other.gameObject == MainSceneController.instance.RightController)
             {
                 if (side == SIDE.LEFT)
                 {

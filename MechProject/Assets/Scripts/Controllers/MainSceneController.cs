@@ -22,6 +22,9 @@ public class MainSceneController : MonoBehaviour {
     [Tooltip("Prefabs for creating the rubber objects in random")]
     public List<GameObject> rubberPrefabs;
 
+    //how many times the robot has moved
+    public int movementIndex = 0;
+
     private void Awake()
     {
         instance = this;
@@ -36,13 +39,17 @@ public class MainSceneController : MonoBehaviour {
             if (rubberPlacements[i] == SIDE.LEFT)
             {
                 newPosition -= robotStartTransform.right;
+                rubber.GetComponent<RubberController>().side = SIDE.LEFT;
             }
             else if (rubberPlacements[i] == SIDE.RIGHT)
             {
                 newPosition += robotStartTransform.right;
+                rubber.GetComponent<RubberController>().side = SIDE.RIGHT;
             }
+            newPosition += robotStartTransform.forward * 3;
             rubber.transform.position = newPosition;
             rubber.transform.Rotate(Vector3.up, Random.Range(0, 360));
+            rubber.GetComponent<RubberController>().forward = robotStartTransform.forward;
         }
 	}
 	
@@ -54,5 +61,12 @@ public class MainSceneController : MonoBehaviour {
     public void AttachRing(GameObject go)
     {
         Instantiate(blueCirclePrefab, go.transform);
+    }
+
+    public bool GetMovable()
+    {
+        if (rubberPlacements[movementIndex] == SIDE.DEFAULT)
+            return true;
+        return false;
     }
 }

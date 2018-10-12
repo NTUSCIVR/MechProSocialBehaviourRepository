@@ -17,15 +17,6 @@ public class GestureHitboxController : MonoBehaviour {
     public bool swipingRight = false;
     float rightSwipeTimer = 0f;
 
-    public SteamVR_TrackedObject leftObj;
-    public SteamVR_TrackedObject rightObj;
-
-    SteamVR_Controller.Device leftController;
-    SteamVR_Controller.Device rightController;
-
-    public int leftIndex;
-    public int rightIndex;
-
     public bool swipingForwardIn = false;
     float forwardInSwipeTimer = 0f;
     public bool swipingBackwardIn = false;
@@ -38,23 +29,15 @@ public class GestureHitboxController : MonoBehaviour {
     private void Awake()
     {
         instance = this;
-        leftIndex = SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost);
-        rightIndex = SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Rightmost); ;
+        
     }
 
     // Use this for initialization
     void Start () { 
-        leftController = SteamVR_Controller.Input((int)leftObj.index);
-        rightController = SteamVR_Controller.Input((int)rightObj.index);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (leftController == null)
-            leftController = SteamVR_Controller.Input((int)leftObj.index);
-        if (rightController == null)
-            rightController = SteamVR_Controller.Input((int)rightObj.index);
-
         if (swipingLeft)
         {
             if(leftSwipeTimer > swipeDelay)
@@ -114,17 +97,12 @@ public class GestureHitboxController : MonoBehaviour {
             }
             backwardOutSwipeTimer += Time.deltaTime;
         }
-
-        if (leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
-            Debug.Log("L trigger pressed");
-        if (rightController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
-            Debug.Log("R trigger pressed");
 	}
     
     public void OnSwipeLeft(SIDE side)
     {
         //if (MainSceneController.instance != null)
-            //if (MainSceneController.instance.leftAttached)
+            if (MainSceneController.instance.leftAttached)
             {
                 if (side == SIDE.RIGHT)
                 {
@@ -145,7 +123,7 @@ public class GestureHitboxController : MonoBehaviour {
     public void OnSwipeRight(SIDE side)
     {
         //if (MainSceneController.instance != null)
-            //if (MainSceneController.instance.rightAttached)
+            if (MainSceneController.instance.rightAttached)
             {
                 if (side == SIDE.LEFT)
                 {
@@ -165,29 +143,35 @@ public class GestureHitboxController : MonoBehaviour {
 
     public void OnSwipeIn(FORWARD_SIDE side)
     {
-        if(side == FORWARD_SIDE.FORWARD)
+        if (MainSceneController.instance.leftAttached && MainSceneController.instance.rightAttached)
         {
-            swipingForwardIn = true;
-            forwardInSwipeTimer = 0f;
-        }
-        else
-        {
-            swipingBackwardIn = true;
-            backwardInSwipeTimer = 0f;
+            if (side == FORWARD_SIDE.FORWARD)
+            {
+                swipingForwardIn = true;
+                forwardInSwipeTimer = 0f;
+            }
+            else
+            {
+                swipingBackwardIn = true;
+                backwardInSwipeTimer = 0f;
+            }
         }
     }
 
     public void OnSwipeOut(FORWARD_SIDE side)
     {
-        if (side == FORWARD_SIDE.FORWARD)
+        if (MainSceneController.instance.leftAttached && MainSceneController.instance.rightAttached)
         {
-            swipingForwardOut = true;
-            forwardOutSwipeTimer = 0f;
-        }
-        else
-        {
-            swipingBackwardOut = true;
-            backwardOutSwipeTimer = 0f;
+            if (side == FORWARD_SIDE.FORWARD)
+            {
+                swipingForwardOut = true;
+                forwardOutSwipeTimer = 0f;
+            }
+            else
+            {
+                swipingBackwardOut = true;
+                backwardOutSwipeTimer = 0f;
+            }
         }
     }
 

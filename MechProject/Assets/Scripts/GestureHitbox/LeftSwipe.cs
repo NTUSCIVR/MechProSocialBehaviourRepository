@@ -31,7 +31,7 @@ public class LeftSwipe : MonoBehaviour {
     {
         if (other.GetComponent<SteamVR_TrackedObject>())
         {
-            if ((int)other.GetComponent<SteamVR_TrackedObject>().index == GestureHitboxController.instance.leftIndex)
+            if (other.gameObject == MainSceneController.instance.LeftController)
             {
                 if (side == SIDE.LEFT)
                 {
@@ -46,7 +46,7 @@ public class LeftSwipe : MonoBehaviour {
     {
         if (other.GetComponent<SteamVR_TrackedObject>())
         {
-            if ((int)other.GetComponent<SteamVR_TrackedObject>().index == GestureHitboxController.instance.leftIndex)
+            if (other.gameObject == MainSceneController.instance.LeftController)
             {
                 if (side == SIDE.RIGHT)
                 {

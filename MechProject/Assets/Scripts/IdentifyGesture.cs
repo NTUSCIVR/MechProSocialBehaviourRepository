@@ -129,17 +129,21 @@ public class IdentifyGesture : GestureHandler
     {
         if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob"))
         {
-            // Robot Move Forward
-            Vector3 StartPoint = Robot.transform.position;
-            Vector3 EndPoint = new Vector3(Robot.transform.position.x,
-                Robot.transform.position.y,
-                Robot.transform.position.z + moveDistance);
-            StartCoroutine(WaitAwhile(1.0f, StartPoint, EndPoint, 0.15f));
+            if (MainSceneController.instance.GetMovable())
+            {
+                ++MainSceneController.instance.movementIndex;
+                // Robot Move Forward
+                Vector3 StartPoint = Robot.transform.position;
+                Vector3 EndPoint = new Vector3(Robot.transform.position.x,
+                    Robot.transform.position.y,
+                    Robot.transform.position.z + moveDistance);
+                StartCoroutine(WaitAwhile(1.0f, StartPoint, EndPoint, 0.15f));
 
-            // Head Animation
-            HeadAnimator.Rebind();
-            HeadAnimator.Play("Bob");
-            StartCoroutine(Bobbing());
+                // Head Animation
+                HeadAnimator.Rebind();
+                HeadAnimator.Play("Bob");
+                StartCoroutine(Bobbing());
+            }
         }
     }
 
