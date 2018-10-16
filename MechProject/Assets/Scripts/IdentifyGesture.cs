@@ -127,7 +127,7 @@ public class IdentifyGesture : GestureHandler
 
     public void PlayBobAnimation()
     {
-        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob"))
+        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
             if (MainSceneController.instance.GetMovable())
             {
@@ -149,7 +149,7 @@ public class IdentifyGesture : GestureHandler
 
     public void PlaySwipeLeftAnimation()
     {
-        if (!LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
             LeftArmAnimator.Rebind();
             LeftArmAnimator.Play("Swipe");
@@ -159,7 +159,7 @@ public class IdentifyGesture : GestureHandler
 
     public void PlaySwipeRightAnimation()
     {
-        if (!RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
             RightArmAnimator.Rebind();
             RightArmAnimator.Play("Swipe");

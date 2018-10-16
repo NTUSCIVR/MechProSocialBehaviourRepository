@@ -34,22 +34,25 @@ public class MainSceneController : MonoBehaviour {
     void Start () {
 		for(int i = 0; i < rubberPlacements.Count; ++i)
         {
-            GameObject rubber = Instantiate(rubberPrefabs[Random.Range(0, rubberPrefabs.Count - 1)]);
-            Vector3 newPosition = robotStartTransform.position + robotStartTransform.forward * identifyGesture.moveDistance * (i+1);
-            if (rubberPlacements[i] == SIDE.LEFT)
+            if (rubberPlacements[i] != SIDE.DEFAULT)
             {
-                newPosition -= robotStartTransform.right;
-                rubber.GetComponent<RubberController>().side = SIDE.LEFT;
+                GameObject rubber = Instantiate(rubberPrefabs[Random.Range(0, rubberPrefabs.Count - 1)]);
+                Vector3 newPosition = robotStartTransform.position + robotStartTransform.forward * identifyGesture.moveDistance * i;
+                if (rubberPlacements[i] == SIDE.LEFT)
+                {
+                    newPosition -= robotStartTransform.right;
+                    rubber.GetComponent<RubberController>().side = SIDE.LEFT;
+                }
+                else if (rubberPlacements[i] == SIDE.RIGHT)
+                {
+                    newPosition += robotStartTransform.right;
+                    rubber.GetComponent<RubberController>().side = SIDE.RIGHT;
+                }
+                newPosition += robotStartTransform.forward * 3;
+                rubber.transform.position = newPosition;
+                rubber.transform.Rotate(Vector3.up, Random.Range(0, 360));
+                rubber.GetComponent<RubberController>().forward = robotStartTransform.forward;
             }
-            else if (rubberPlacements[i] == SIDE.RIGHT)
-            {
-                newPosition += robotStartTransform.right;
-                rubber.GetComponent<RubberController>().side = SIDE.RIGHT;
-            }
-            newPosition += robotStartTransform.forward * 3;
-            rubber.transform.position = newPosition;
-            rubber.transform.Rotate(Vector3.up, Random.Range(0, 360));
-            rubber.GetComponent<RubberController>().forward = robotStartTransform.forward;
         }
 	}
 	
