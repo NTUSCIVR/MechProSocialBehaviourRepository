@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Controller
   - Arm
+  - Fade
   layers:
   - Default
   - TransparentFX
