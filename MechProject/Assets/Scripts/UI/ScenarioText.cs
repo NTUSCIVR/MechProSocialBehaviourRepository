@@ -14,17 +14,17 @@ public class ScenarioText : MonoBehaviour {
 	void Update () {
 		switch(DataCollector.Instance.scenario)
         {
-            case DataCollector.PROJECT_CASE.BLUE_PERSUADE:
-                GetComponentInChildren<Text>().text = "Blue Persuade Selected";
+            case DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE:
+                GetComponentInChildren<Text>().text = "Blue Persuade Pilot Blue Selected";
                 break;
-            case DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE:
-                GetComponentInChildren<Text>().text = "Blue No Persuade Selected";
+            case DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_RED:
+                GetComponentInChildren<Text>().text = "Blue Persuade Pilot Red Selected";
                 break;
-            case DataCollector.PROJECT_CASE.RED_PERSUADE:
-                GetComponentInChildren<Text>().text = "Red Persuade Selected";
+            case DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE:
+                GetComponentInChildren<Text>().text = "Blue No Persuade Pilot Blue Selected";
                 break;
-            case DataCollector.PROJECT_CASE.RED_NO_PERSUADE:
-                GetComponentInChildren<Text>().text = "Red No Persuade Selected";
+            case DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED:
+                GetComponentInChildren<Text>().text = "Blue No Persuade Pilot Red Selected";
                 break;
         }
 	}

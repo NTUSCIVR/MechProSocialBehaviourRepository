@@ -10,10 +10,10 @@ public class DataCollector : MonoBehaviour {
     public enum PROJECT_CASE
     {
         DEFAULT,
-        BLUE_PERSUADE,
-        BLUE_NO_PERSUADE,
-        RED_PERSUADE,
-        RED_NO_PERSUADE
+        BLUE_PERSUADE_PILOT_BLUE,
+        BLUE_PERSUADE_PILOT_RED,
+        BLUE_NO_PERSUADE_PILOT_BLUE,
+        BLUE_NO_PERSUADE_PILOT_RED
     }
 
     public PROJECT_CASE scenario;
@@ -83,14 +83,14 @@ public class DataCollector : MonoBehaviour {
     public void OnScenarioSelect(GameObject btn)
     {
         string text = btn.name;
-        if (text == "BluePersuade")
-            scenario = PROJECT_CASE.BLUE_PERSUADE;
-        else if (text == "BlueNoPersuade")
-            scenario = PROJECT_CASE.BLUE_NO_PERSUADE;
-        else if (text == "RedPersuade")
-            scenario = PROJECT_CASE.RED_PERSUADE;
-        else if (text == "RedNoPersuade")
-            scenario = PROJECT_CASE.RED_NO_PERSUADE;
+        if (text == "BluePersuadePilotBlue")
+            scenario = PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE;
+        else if (text == "BluePersuadePilotRed")
+            scenario = PROJECT_CASE.BLUE_PERSUADE_PILOT_RED;
+        else if (text == "BlueNoPersaudePilotBlue")
+            scenario = PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE;
+        else if (text == "BlueNoPersuadePilotRed")
+            scenario = PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED;
     }
 
     public void OnStartPressed()

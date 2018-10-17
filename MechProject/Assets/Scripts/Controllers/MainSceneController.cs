@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//rip the code so dependent on each other i cant do much alr, sorry next intern peep
 public class MainSceneController : MonoBehaviour {
+
+    public enum GAME_STATE
+    {
+        TUTORIAL,
+        GAME
+    }
 
     public static MainSceneController instance;
 
@@ -24,6 +31,11 @@ public class MainSceneController : MonoBehaviour {
 
     //how many times the robot has moved
     public int movementIndex = 0;
+
+    GAME_STATE state = GAME_STATE.TUTORIAL;
+    public bool moveBefore = false;
+    public bool swipeLeftBefore = false;
+    public bool swiperRightBefore = false;
 
     private void Awake()
     {
