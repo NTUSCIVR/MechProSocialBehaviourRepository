@@ -102,43 +102,68 @@ public class GestureHitboxController : MonoBehaviour {
     public void OnSwipeLeft(SIDE side)
     {
         //if (MainSceneController.instance != null)
-            if (MainSceneController.instance.leftAttached)
+        if (MainSceneController.instance.leftAttached)
+        {
+            if (side == SIDE.RIGHT)
             {
-                if (side == SIDE.RIGHT)
+                swipingLeft = true;
+            }
+            else
+            {
+                if (swipingLeft)
                 {
-                    swipingLeft = true;
-                }
-                else
-                {
-                    if (swipingLeft)
+                    //check if game state is in tutorial or not
+                    if (MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
                     {
                         identifyGesture.PlaySwipeLeftAnimation();
                         swipingLeft = false;
                         leftSwipeTimer = 0f;
                     }
+                    else
+                    {
+                        identifyGesture.PlaySwipeLeftAnimation();
+                        swipingLeft = false;
+                        leftSwipeTimer = 0f;
+                        MainSceneController.instance.swipeLeftBefore = true;
+                    }
                 }
             }
+        }
     }
 
     public void OnSwipeRight(SIDE side)
     {
         //if (MainSceneController.instance != null)
-            if (MainSceneController.instance.rightAttached)
+        if (MainSceneController.instance.rightAttached)
+        {
+            if (side == SIDE.LEFT)
             {
-                if (side == SIDE.LEFT)
+                swipingRight = true;
+            }
+            else
+            {
+                if (swipingRight)
                 {
-                    swipingRight = true;
-                }
-                else
-                {
-                    if (swipingRight)
+                    //check if game state is in tutorial or not
+                    if (MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
                     {
                         identifyGesture.PlaySwipeRightAnimation();
                         swipingRight = false;
                         rightSwipeTimer = 0f;
                     }
+                    else
+                    {
+                        if(MainSceneController.instance.swipeLeftBefore)
+                        {
+                            identifyGesture.PlaySwipeRightAnimation();
+                            swipingRight = false;
+                            rightSwipeTimer = 0f;
+                            MainSceneController.instance.swipeRightBefore = true;
+                        }
+                    }
                 }
             }
+        }
     }
 
     public void OnSwipeIn(FORWARD_SIDE side)
@@ -179,9 +204,22 @@ public class GestureHitboxController : MonoBehaviour {
     {
         if(swipingBackwardIn && swipingForwardIn && swipingForwardOut && swipingBackwardOut)
         {
-            identifyGesture.PlayBobAnimation();
-            swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
-            backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
+            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
+            {
+                identifyGesture.PlayBobAnimation();
+                swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
+                backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
+            }
+            else
+            {
+                if (MainSceneController.instance.swipeLeftBefore == true && MainSceneController.instance.swipeRightBefore == true)
+                {
+                    identifyGesture.PlayBobAnimation();
+                    swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
+                    backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
+                    MainSceneController.instance.moveBefore = true;
+                }
+            }
         }
     }
 }

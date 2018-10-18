@@ -39,7 +39,7 @@ public class HangerSceneController : MonoBehaviour
         if (DataCollector.Instance)
         {
             //decide which lines to be used
-            if (DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE &&
+            if (DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE ||
                 DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_RED)
             {
                 displayedLines = persuadeLines;

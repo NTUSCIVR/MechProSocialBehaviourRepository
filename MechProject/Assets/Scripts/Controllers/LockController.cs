@@ -18,7 +18,10 @@ public class LockController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("test");
+        if (side == SIDE.LEFT)
+            Debug.Log(other.name + ": left");
+        else
+            Debug.Log(other.name + ": right");
         if(other.tag == "Controller")
         {
             if(other.gameObject == MainSceneController.instance.LeftController)

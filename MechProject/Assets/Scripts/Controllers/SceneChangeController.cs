@@ -40,11 +40,13 @@ public class SceneChangeController : MonoBehaviour {
         if(fadeTimer <= fadeTime)
         {
             fadeTimer += Time.deltaTime;
-            fadeOutImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
+            if(fadeOutImage != null)
+                fadeOutImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
         }
         else
         {
-            fadeOutImage.color = new Color(0, 0, 0, 1);
+            if(fadeOutImage != null)
+                fadeOutImage.color = new Color(0, 0, 0, 1);
             fadeTimer = 0f;
             fadingOut = false;
             fadingIn = true;

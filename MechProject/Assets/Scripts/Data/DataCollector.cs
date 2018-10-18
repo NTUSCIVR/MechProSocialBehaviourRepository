@@ -84,13 +84,25 @@ public class DataCollector : MonoBehaviour {
     {
         string text = btn.name;
         if (text == "BluePersuadePilotBlue")
+        {
             scenario = PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE;
+            Debug.Log("BluePersuadePilotBlue");
+        }
         else if (text == "BluePersuadePilotRed")
+        {
             scenario = PROJECT_CASE.BLUE_PERSUADE_PILOT_RED;
-        else if (text == "BlueNoPersaudePilotBlue")
+            Debug.Log("BluePersuadePilotRed");
+        }
+        else if (text == "BlueNoPersuadePilotBlue")
+        {
             scenario = PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE;
+            Debug.Log("BlueNoPersuadePilotBlue");
+        }
         else if (text == "BlueNoPersuadePilotRed")
+        {
             scenario = PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED;
+            Debug.Log("BlueNoPersuadePilotRed");
+        }
     }
 
     public void OnStartPressed()

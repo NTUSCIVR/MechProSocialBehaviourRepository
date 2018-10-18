@@ -75,7 +75,7 @@ public class IdentifyGesture : GestureHandler
 
         // Configure by specifying target 
         playerGestureMatch = new Manager.OnPlayerGestureMatch(HandleOnPlayerGestureMatch);
-        Manager.onPlayerGestureMatch += playerGestureMatch;
+        //Manager.onPlayerGestureMatch += playerGestureMatch;
 
         // Loads gestures from DeveloperDefined.csv
         Manager.LoadCache();
@@ -102,7 +102,7 @@ public class IdentifyGesture : GestureHandler
     void OnDestroy()
     {
         // Unregistering callback
-        Manager.onPlayerGestureMatch -= playerGestureMatch;
+        //Manager.onPlayerGestureMatch -= playerGestureMatch;
     }
 
     void Update()
