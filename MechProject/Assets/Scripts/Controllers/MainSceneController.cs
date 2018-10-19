@@ -98,12 +98,12 @@ public class MainSceneController : MonoBehaviour {
                 Vector3 newPosition = robotStartTransform.position + robotStartTransform.forward * identifyGesture.moveDistance * i;
                 if (rubberPlacements[i] == SIDE.LEFT)
                 {
-                    newPosition -= robotStartTransform.right;
+                    newPosition -= robotStartTransform.right * 2;
                     rubber.GetComponent<RubberController>().side = SIDE.LEFT;
                 }
                 else if (rubberPlacements[i] == SIDE.RIGHT)
                 {
-                    newPosition += robotStartTransform.right;
+                    newPosition += robotStartTransform.right * 2;
                     rubber.GetComponent<RubberController>().side = SIDE.RIGHT;
                 }
                 newPosition += robotStartTransform.forward * 3;
