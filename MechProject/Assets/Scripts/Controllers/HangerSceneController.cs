@@ -98,7 +98,10 @@ public class HangerSceneController : MonoBehaviour
         {
             timer += Time.deltaTime;
             if (timer > timeToNextScene)
+            {
                 ChangeToNextScene();
+                Destroy(this);
+            }
         }
     }
 

@@ -117,39 +117,38 @@ public class MainSceneController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (state == GAME_STATE.TUTORIAL)
+        if (moveBefore)
         {
-            if(moveBefore)
+            timerForTransition += Time.deltaTime;
+            if (timerForTransition > timeForTransition)
             {
-                timerForTransition += Time.deltaTime;
-                if(timerForTransition > timeForTransition)
+                //check if it is time to fade to teleport the mech somewhr else
+                if (timerForTransition >= (timeForTransition - fadeTime))
                 {
-                    //check if it is time to fade to teleport the mech somewhr else
-                    if (timerForTransition >= (timeForTransition - fadeTime))
+                    if (!faded)
                     {
-                        if (!faded)
-                        {
-                            fadeTimer += Time.deltaTime;
-                            if (fadeTimer < fadeTime)
-                                fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
-                            else
-                            {
-                                fadeImage.color = new Color(0, 0, 0, 1);
-                                fadeTimer = 1f;
-                                faded = true;
-                                primaryBot.transform.position = robotStartTransform.position;
-                            }
-                        }
+                        fadeTimer += Time.deltaTime;
+                        Debug.Log("fading :" + fadeTimer);
+                        if (fadeTimer < fadeTime)
+                            fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
                         else
                         {
-                            fadeTimer -= Time.deltaTime;
-                            if (fadeTimer > 0)
-                                fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
-                            else
-                            {
-                                fadeImage.color = new Color(0, 0, 0, 0);
-                                state = GAME_STATE.GAME;
-                            }
+                            fadeImage.color = new Color(0, 0, 0, 1);
+                            fadeTimer = 1f;
+                            faded = true;
+                            primaryBot.transform.position = robotStartTransform.position;
+                        }
+                    }
+                    else
+                    {
+                        fadeTimer -= Time.deltaTime;
+                        Debug.Log("unfading: " + fadeTimer);
+                        if (fadeTimer > 0)
+                            fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
+                        else
+                        {
+                            fadeImage.color = new Color(0, 0, 0, 0);
+                            state = GAME_STATE.GAME;
                         }
                     }
                 }

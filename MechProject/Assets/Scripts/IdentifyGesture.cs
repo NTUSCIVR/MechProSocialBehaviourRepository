@@ -78,7 +78,7 @@ public class IdentifyGesture : GestureHandler
         //Manager.onPlayerGestureMatch += playerGestureMatch;
 
         // Loads gestures from DeveloperDefined.csv
-        Manager.LoadCache();
+        //Manager.LoadCache();
 
         // Sets current mode to Identify Player Gesture
         Manager.SetPlayerGesture(new List<int> {
@@ -131,7 +131,8 @@ public class IdentifyGesture : GestureHandler
         {
             if (MainSceneController.instance.GetMovable())
             {
-                ++MainSceneController.instance.movementIndex;
+                if(MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
+                    ++MainSceneController.instance.movementIndex;
                 // Robot Move Forward
                 Vector3 StartPoint = Robot.transform.position;
                 Vector3 EndPoint = new Vector3(Robot.transform.position.x,
