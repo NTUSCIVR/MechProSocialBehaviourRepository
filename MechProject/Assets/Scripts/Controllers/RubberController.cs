@@ -15,7 +15,7 @@ public class RubberController : MonoBehaviour {
     Vector3 left = Vector3.zero;
     Vector3 right = Vector3.zero;
 
-    float delayBeforeMoving = 2f;
+    public float delayBeforeMoving = 2f;
     float timer = 0f;
 
 	// Use this for initialization

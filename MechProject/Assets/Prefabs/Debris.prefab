@@ -715,6 +715,7 @@ MonoBehaviour:
   forward: {x: 0, y: 0, z: 0}
   speed: 5
   distanceToTravel: 2
+  delayBeforeMoving: 0.5
 --- !u!135 &135080657422744588
 SphereCollider:
   m_ObjectHideFlags: 1
