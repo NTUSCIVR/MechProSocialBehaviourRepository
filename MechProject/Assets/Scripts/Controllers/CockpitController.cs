@@ -49,17 +49,20 @@ public class CockpitController : MonoBehaviour {
         }
         else
         {
-            if(MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.DEFAULT)
+            if (MainSceneController.instance.movementIndex < MainSceneController.instance.rubberPlacements.Count)
             {
-                tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swingArmsForwardAndBackText);
-            }
-            else if(MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.LEFT)
-            {
-                tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeRightToLeftText);
-            }
-            else if(MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.RIGHT)
-            {
-                tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeLeftToRightText);
+                if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.DEFAULT)
+                {
+                    tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swingArmsForwardAndBackText);
+                }
+                else if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.LEFT)
+                {
+                    tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeRightToLeftText);
+                }
+                else if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.RIGHT)
+                {
+                    tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeLeftToRightText);
+                }
             }
         }
 	}

@@ -27,8 +27,14 @@ public class AmbulanceController : MonoBehaviour {
         }
         else
         {
-            if((startPos - transform.position).magnitude < distanceToTravel)
+            if ((startPos - transform.position).magnitude < distanceToTravel)
                 transform.position += transform.up * speed * Time.deltaTime;
+            else
+            {
+                Debug.Log("Change scene to EndScene");
+                SceneChangeController.instance.ChangeScene("EndScene");
+                Destroy(this);
+            }
         }
 	}
 }

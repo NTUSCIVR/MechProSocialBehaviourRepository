@@ -50,6 +50,7 @@ public class MainSceneController : MonoBehaviour {
     public float fadeTime = 1f;
     float fadeTimer = 0f;
     bool faded = false;
+    bool stopFade = false;
 
     Image fadeImage;
 
@@ -141,14 +142,18 @@ public class MainSceneController : MonoBehaviour {
                     }
                     else
                     {
-                        fadeTimer -= Time.deltaTime;
-                        Debug.Log("unfading: " + fadeTimer);
-                        if (fadeTimer > 0)
-                            fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
-                        else
+                        if (!stopFade)
                         {
-                            fadeImage.color = new Color(0, 0, 0, 0);
-                            state = GAME_STATE.GAME;
+                            fadeTimer -= Time.deltaTime;
+                            Debug.Log("unfading: " + fadeTimer);
+                            if (fadeTimer > 0)
+                                fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
+                            else
+                            {
+                                fadeImage.color = new Color(0, 0, 0, 0);
+                                state = GAME_STATE.GAME;
+                                stopFade = true;
+                            }
                         }
                     }
                 }
