@@ -117,12 +117,14 @@ public class GestureHitboxController : MonoBehaviour {
                     {
                         identifyGesture.PlaySwipeLeftAnimation();
                         swipingLeft = false;
+                        DataCollector.Instance.PushData("Time taken for swiping left: " + leftSwipeTimer);
                         leftSwipeTimer = 0f;
                     }
                     else
                     {
                         identifyGesture.PlaySwipeLeftAnimation();
                         swipingLeft = false;
+                        DataCollector.Instance.PushData("Time taken for swiping left: " + leftSwipeTimer);
                         leftSwipeTimer = 0f;
                         MainSceneController.instance.swipeLeftBefore = true;
                     }
@@ -149,6 +151,7 @@ public class GestureHitboxController : MonoBehaviour {
                     {
                         identifyGesture.PlaySwipeRightAnimation();
                         swipingRight = false;
+                        DataCollector.Instance.PushData("Time taken for swiping right: " + rightSwipeTimer);
                         rightSwipeTimer = 0f;
                     }
                     else
@@ -157,6 +160,7 @@ public class GestureHitboxController : MonoBehaviour {
                         {
                             identifyGesture.PlaySwipeRightAnimation();
                             swipingRight = false;
+                            DataCollector.Instance.PushData("Time taken for swiping right: " + rightSwipeTimer);
                             rightSwipeTimer = 0f;
                             MainSceneController.instance.swipeRightBefore = true;
                         }
@@ -208,6 +212,7 @@ public class GestureHitboxController : MonoBehaviour {
             {
                 identifyGesture.PlayBobAnimation();
                 swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
+                DataCollector.Instance.PushData("Time taken for moving swipe: " + forwardInSwipeTimer);
                 backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
             }
             else
@@ -217,6 +222,7 @@ public class GestureHitboxController : MonoBehaviour {
                     identifyGesture.PlayBobAnimation();
                     swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
                     backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
+                    DataCollector.Instance.PushData("Time taken for moving swipe: " + forwardInSwipeTimer);
                     MainSceneController.instance.moveBefore = true;
                 }
             }
