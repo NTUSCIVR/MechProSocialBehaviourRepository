@@ -15,7 +15,11 @@ public class TutorialUIController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!MainSceneController.instance.swipeLeftBefore)
+        if(!MainSceneController.instance.leftAttached || !MainSceneController.instance.rightAttached)
+        {
+
+        }
+		else if(!MainSceneController.instance.swipeLeftBefore)
         {
             leftArrow.SetActive(true);
         }

@@ -112,22 +112,10 @@ public class GestureHitboxController : MonoBehaviour {
             {
                 if (swipingLeft)
                 {
-                    //check if game state is in tutorial or not
-                    if (MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
-                    {
-                        identifyGesture.PlaySwipeLeftAnimation();
-                        swipingLeft = false;
-                        DataCollector.Instance.PushData("Time taken for swiping left: " + leftSwipeTimer);
-                        leftSwipeTimer = 0f;
-                    }
-                    else
-                    {
-                        identifyGesture.PlaySwipeLeftAnimation();
-                        swipingLeft = false;
-                        DataCollector.Instance.PushData("Time taken for swiping left: " + leftSwipeTimer);
-                        leftSwipeTimer = 0f;
-                        MainSceneController.instance.swipeLeftBefore = true;
-                    }
+                    identifyGesture.PlaySwipeLeftAnimation();
+                    swipingLeft = false;
+                    DataCollector.Instance.PushData("Time taken for swiping left: " + leftSwipeTimer);
+                    leftSwipeTimer = 0f;
                 }
             }
         }
@@ -146,25 +134,10 @@ public class GestureHitboxController : MonoBehaviour {
             {
                 if (swipingRight)
                 {
-                    //check if game state is in tutorial or not
-                    if (MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
-                    {
-                        identifyGesture.PlaySwipeRightAnimation();
-                        swipingRight = false;
-                        DataCollector.Instance.PushData("Time taken for swiping right: " + rightSwipeTimer);
-                        rightSwipeTimer = 0f;
-                    }
-                    else
-                    {
-                        if(MainSceneController.instance.swipeLeftBefore)
-                        {
-                            identifyGesture.PlaySwipeRightAnimation();
-                            swipingRight = false;
-                            DataCollector.Instance.PushData("Time taken for swiping right: " + rightSwipeTimer);
-                            rightSwipeTimer = 0f;
-                            MainSceneController.instance.swipeRightBefore = true;
-                        }
-                    }
+                    identifyGesture.PlaySwipeRightAnimation();
+                    swipingRight = false;
+                    DataCollector.Instance.PushData("Time taken for swiping right: " + rightSwipeTimer);
+                    rightSwipeTimer = 0f;
                 }
             }
         }
@@ -208,24 +181,27 @@ public class GestureHitboxController : MonoBehaviour {
     {
         if(swipingBackwardIn && swipingForwardIn && swipingForwardOut && swipingBackwardOut)
         {
-            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
+            if (MainSceneController.instance.swipeLeftBefore == true && MainSceneController.instance.swipeRightBefore == true)
             {
                 identifyGesture.PlayBobAnimation();
                 swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
-                DataCollector.Instance.PushData("Time taken for moving swipe: " + forwardInSwipeTimer);
                 backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
-            }
-            else
-            {
-                if (MainSceneController.instance.swipeLeftBefore == true && MainSceneController.instance.swipeRightBefore == true)
-                {
-                    identifyGesture.PlayBobAnimation();
-                    swipingBackwardIn = swipingBackwardOut = swipingForwardIn = swipingForwardOut = false;
-                    backwardInSwipeTimer = backwardOutSwipeTimer = forwardInSwipeTimer = forwardOutSwipeTimer = 0f;
-                    DataCollector.Instance.PushData("Time taken for moving swipe: " + forwardInSwipeTimer);
-                    MainSceneController.instance.moveBefore = true;
-                }
+                DataCollector.Instance.PushData("Time taken for moving swipe: " + GetLowestTime(new float[] { backwardInSwipeTimer, backwardOutSwipeTimer, forwardInSwipeTimer, forwardOutSwipeTimer }));
+                MainSceneController.instance.moveBefore = true;
             }
         }
+    }
+
+    float GetLowestTime(float[] times)
+    {
+        float lowestTime = float.MaxValue;
+        foreach(float time in times)
+        {
+            if (time == 0)
+                continue;
+            if(time < lowestTime)
+                lowestTime = time;
+        }
+        return lowestTime;
     }
 }

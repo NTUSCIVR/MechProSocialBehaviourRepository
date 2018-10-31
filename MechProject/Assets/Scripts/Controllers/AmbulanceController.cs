@@ -19,7 +19,7 @@ public class AmbulanceController : MonoBehaviour {
 	void Update () {
 		if(!toDrive)
         {
-            if(MainSceneController.instance.movementIndex == MainSceneController.instance.rubberPlacements.Count - 1)
+            if(MainSceneController.instance.movementIndex == MainSceneController.instance.rubberPlacements.Count)
             {
                 toDrive = true;
                 GetComponent<AudioSource>().Play();

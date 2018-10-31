@@ -19,6 +19,8 @@ public class HangerSceneController : MonoBehaviour
     public float DisplayRate = 1.0f;
     public float timeToNextScene = 1f;
 
+    public AudioSource robotBeep;
+
     Text TextObject;
     float timer = 0.0f;
     List<string> displayedLines;
@@ -33,7 +35,7 @@ public class HangerSceneController : MonoBehaviour
     private void Start()
     {
         // Get Text Under Canvas
-        TextObject = CanvasObject.transform.Find("Text").GetComponent<Text>();
+        TextObject = CanvasObject.transform.Find("Dialogue Text").GetComponent<Text>();
         TextObject.text = "";
 
         if (DataCollector.Instance)
@@ -70,28 +72,36 @@ public class HangerSceneController : MonoBehaviour
                     ++wordIndex;
                     timer = 0f;
                 }
+                else
+                {
+                    robotBeep.Stop();
+                }
             }
         }
 
         if (leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
-            if(linesIndex < displayedLines.Count)
-            if (wordIndex == displayedLines[linesIndex].Length)
-            {
-                TextObject.text = "";
-                ++linesIndex;
-                wordIndex = 0;
-            }
+            if (linesIndex < displayedLines.Count)
+                if (wordIndex == displayedLines[linesIndex].Length)
+                {
+                    if(linesIndex + 1 < displayedLines.Count)
+                        robotBeep.Play();
+                    TextObject.text = "";
+                    ++linesIndex;
+                    wordIndex = 0;
+                }
         }
         if(rightController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
-            if(linesIndex < displayedLines.Count)
-            if (wordIndex == displayedLines[linesIndex].Length)
-            {
-                TextObject.text = "";
-                ++linesIndex;
-                wordIndex = 0;
-            }
+            if (linesIndex < displayedLines.Count)
+                if (wordIndex == displayedLines[linesIndex].Length)
+                {
+                    if (linesIndex + 1 < displayedLines.Count)
+                        robotBeep.Play();
+                    TextObject.text = "";
+                    ++linesIndex;
+                    wordIndex = 0;
+                }
         }
 
         if(linesIndex == displayedLines.Count)

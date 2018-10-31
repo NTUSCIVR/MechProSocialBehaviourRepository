@@ -13,6 +13,7 @@ public class CockpitController : MonoBehaviour {
     public Texture swipeRightToLeftText;
     public Texture swipeLeftToRightText;
     public Texture swingArmsForwardAndBackText;
+    public Texture turnOnText;
 
     public Light cockpitLight;
 
@@ -35,7 +36,11 @@ public class CockpitController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!MainSceneController.instance.swipeLeftBefore)
+        if(!MainSceneController.instance.leftAttached || !MainSceneController.instance.rightAttached)
+        {
+            tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", turnOnText);
+        }
+		else if(!MainSceneController.instance.swipeLeftBefore)
         {
             tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeRightToLeftText);
         }

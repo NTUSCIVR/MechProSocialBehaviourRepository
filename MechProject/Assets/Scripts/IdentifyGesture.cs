@@ -36,7 +36,11 @@ public class IdentifyGesture : GestureHandler
     public bool bobbing = false;
     public bool swipingLeft = false;
     public bool swipingRight = false;
-    
+
+    public AudioSource audioSource;
+    public AudioClip moveArm;
+    public AudioClip moveForward;
+
     // Callback for receiving signature/gesture progression or identification results
     Manager.OnPlayerGestureMatch playerGestureMatch;
 
@@ -131,12 +135,17 @@ public class IdentifyGesture : GestureHandler
 
     public void PlayBobAnimation()
     {
-        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") /*&& !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe")*/)
         {
             if (MainSceneController.instance.GetMovable())
             {
                 if(MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
                     ++MainSceneController.instance.movementIndex;
+                if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL && MainSceneController.instance.moveBefore)
+                    return;
+                if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL && !MainSceneController.instance.moveBefore)
+                    MainSceneController.instance.moveBefore = true;
+                Debug.Log(MainSceneController.instance.moveBefore);
                 // Robot Move Forward
                 Vector3 StartPoint = Robot.transform.position;
                 Vector3 EndPoint = new Vector3(Robot.transform.position.x,
@@ -144,13 +153,15 @@ public class IdentifyGesture : GestureHandler
                     Robot.transform.position.z + moveDistance);
                 StartCoroutine(WaitAwhile(1.0f, StartPoint, EndPoint, 0.15f));
 
+                audioSource.clip = moveForward;
+                audioSource.Play();
                 // Head Animation
                 HeadAnimator.Rebind();
                 HeadAnimator.Play("Bob");
                 CockpitAnimator.Rebind();
                 CockpitAnimator.Play("Cockpit_Bob");
-                SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(3900);
-                SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(3900);
+                SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(10000);
+                SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(10000);
                 StartCoroutine(Bobbing());
             }
         }
@@ -158,22 +169,30 @@ public class IdentifyGesture : GestureHandler
 
     public void PlaySwipeLeftAnimation()
     {
-        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
+            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+                MainSceneController.instance.swipeLeftBefore = true;
+            audioSource.clip = moveArm;
+            audioSource.Play();
             LeftArmAnimator.Rebind();
             LeftArmAnimator.Play("Swipe");
-            SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(2000);
+            SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(7000);
             StartCoroutine(SwipingLeft());
         }
     }
 
     public void PlaySwipeRightAnimation()
     {
-        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
+        if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
+            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+                MainSceneController.instance.swipeRightBefore = true;
+            audioSource.clip = moveArm;
+            audioSource.Play();
             RightArmAnimator.Rebind();
             RightArmAnimator.Play("Swipe");
-            SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(2000);
+            SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(7000);
             StartCoroutine(SwipingRight());
         }
     }
