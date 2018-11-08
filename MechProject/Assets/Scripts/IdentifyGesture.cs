@@ -3,12 +3,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class IdentifyGesture : GestureHandler
+public class IdentifyGesture : MonoBehaviour
 {
     // Gesture index to use for training and verifying custom gesture. Valid range is between 1 and 1000
     // Beware that setting to 100 will overwrite your player signature.
-    readonly int PLAYER_GESTURE_WALK = 101;
-    readonly int PLAYER_GESTURE_SWIPE = 102;
+    //readonly int PLAYER_GESTURE_WALK = 101;
+    //readonly int PLAYER_GESTURE_SWIPE = 102;
 
     [Tooltip("Distance to travel but movement action")]
     public float moveDistance = 1f;
@@ -42,69 +42,69 @@ public class IdentifyGesture : GestureHandler
     public AudioClip moveForward;
 
     // Callback for receiving signature/gesture progression or identification results
-    Manager.OnPlayerGestureMatch playerGestureMatch;
+    //Manager.OnPlayerGestureMatch playerGestureMatch;
 
     // Handling custom gesture match callback - This is inovked when the Mode is set to Mode.IdentifyPlayerGesture and a gesture
     // is recorded.
     // gestureId - a serial number
     // match - the index that match or -1 if no match. The match index must be one in the SetTarget()
-    void HandleOnPlayerGestureMatch(long gestureId, int match)
-    {
-        if (gestureId != 0 &&
-            (MainSceneController.instance.leftAttached ||
-            MainSceneController.instance.rightAttached))
-        {
-            if (PLAYER_GESTURE_WALK == match)
-            {
-                bobbing = true;
-            }
-            else if (PLAYER_GESTURE_SWIPE == match)
-            {
-                // Find Direction of the Swipe
-                FindDirection();
-                // Right
-                if (directionResult == 1)
-                {
-                    swipingRight = true;
-                }
-                // Left
-                else if(directionResult == -1)
-                {
-                    swipingLeft = true;
-                }
-            }
-        }
-    }
+    //void HandleOnPlayerGestureMatch(long gestureId, int match)
+    //{
+    //    if (gestureId != 0 &&
+    //        (MainSceneController.instance.leftAttached ||
+    //        MainSceneController.instance.rightAttached))
+    //    {
+    //        if (PLAYER_GESTURE_WALK == match)
+    //        {
+    //            bobbing = true;
+    //        }
+    //        else if (PLAYER_GESTURE_SWIPE == match)
+    //        {
+    //            // Find Direction of the Swipe
+    //            FindDirection();
+    //            // Right
+    //            if (directionResult == 1)
+    //            {
+    //                swipingRight = true;
+    //            }
+    //            // Left
+    //            else if(directionResult == -1)
+    //            {
+    //                swipingLeft = true;
+    //            }
+    //        }
+    //    }
+    //}
 
     // Use this for initialization
     void Awake()
     {
-        Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+        //Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
 
-        // Configure by specifying target 
-        playerGestureMatch = new Manager.OnPlayerGestureMatch(HandleOnPlayerGestureMatch);
-        //Manager.onPlayerGestureMatch += playerGestureMatch;
+        //// Configure by specifying target 
+        //playerGestureMatch = new Manager.OnPlayerGestureMatch(HandleOnPlayerGestureMatch);
+        ////Manager.onPlayerGestureMatch += playerGestureMatch;
 
-        // Loads gestures from DeveloperDefined.csv
-        //Manager.LoadCache();
+        //// Loads gestures from DeveloperDefined.csv
+        ////Manager.LoadCache();
 
-        // Sets current mode to Identify Player Gesture
-        Manager.SetPlayerGesture(new List<int> {
-                PLAYER_GESTURE_WALK,
-                PLAYER_GESTURE_SWIPE
-            }, true);
-        Manager.SetMode(Manager.Mode.IdentifyPlayerGesture);
-        Manager.SetTarget(new List<int> { PLAYER_GESTURE_WALK, PLAYER_GESTURE_SWIPE });
+        //// Sets current mode to Identify Player Gesture
+        //Manager.SetPlayerGesture(new List<int> {
+        //        PLAYER_GESTURE_WALK,
+        //        PLAYER_GESTURE_SWIPE
+        //    }, true);
+        //Manager.SetMode(Manager.Mode.IdentifyPlayerGesture);
+        //Manager.SetTarget(new List<int> { PLAYER_GESTURE_WALK, PLAYER_GESTURE_SWIPE });
 
-        Manager.SetTriggerStartKeys(
-            Manager.Controller.RIGHT_HAND,
-            SteamVR_Controller.ButtonMask.Trigger,
-            Manager.PressOrTouch.PRESS);
+        //Manager.SetTriggerStartKeys(
+        //    Manager.Controller.RIGHT_HAND,
+        //    SteamVR_Controller.ButtonMask.Trigger,
+        //    Manager.PressOrTouch.PRESS);
         
-        Manager.SetTriggerStartKeys(
-            Manager.Controller.LEFT_HAND,
-            SteamVR_Controller.ButtonMask.Trigger,
-            Manager.PressOrTouch.PRESS);
+        //Manager.SetTriggerStartKeys(
+        //    Manager.Controller.LEFT_HAND,
+        //    SteamVR_Controller.ButtonMask.Trigger,
+        //    Manager.PressOrTouch.PRESS);
     }
 
     void OnDestroy()
@@ -115,7 +115,7 @@ public class IdentifyGesture : GestureHandler
 
     void Update()
     {
-        UpdateUIandHandleControl();
+        //UpdateUIandHandleControl();
 
         // if the name of current state of HeadAnimator is not "Bob", Play Bob animation
         if (bobbing)

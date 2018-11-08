@@ -14,8 +14,11 @@ public class HangerSceneController : MonoBehaviour
     private SteamVR_Controller.Device leftController { get { return SteamVR_Controller.Input((int)leftControllerObject.GetComponent<SteamVR_TrackedObject>().index); } }
     private SteamVR_Controller.Device rightController { get { return SteamVR_Controller.Input((int)rightControllerObject.GetComponent<SteamVR_TrackedObject>().index); } }
 
+    public List<string> startLines;
     public List<string> persuadeLines;
     public List<string> noPersuadeLines;
+    public List<string> redBotLines;
+    public List<string> blueBotLines;
     public float DisplayRate = 1.0f;
     public float timeToNextScene = 1f;
 
@@ -40,15 +43,44 @@ public class HangerSceneController : MonoBehaviour
 
         if (DataCollector.Instance)
         {
-            //decide which lines to be used
-            if (DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE ||
-                DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_RED)
+            switch (DataCollector.Instance.scenario)
             {
-                displayedLines = persuadeLines;
-            }
-            else
-            {
-                displayedLines = noPersuadeLines;
+                case DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE:
+                    displayedLines = new List<string>(startLines.Count +
+                        noPersuadeLines.Count +
+                        blueBotLines.Count);
+                    displayedLines.AddRange(startLines);
+                    displayedLines.AddRange(noPersuadeLines);
+                    displayedLines.AddRange(blueBotLines);
+                    DataCollector.Instance.PushData("No Persuasion, Pilot Blue");
+                    break;
+                case DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED:
+                    displayedLines = new List<string>(startLines.Count +
+                        noPersuadeLines.Count +
+                        redBotLines.Count);
+                    displayedLines.AddRange(startLines);
+                    displayedLines.AddRange(noPersuadeLines);
+                    displayedLines.AddRange(redBotLines);
+                    DataCollector.Instance.PushData("No Persuasion, Pilot Red");
+                    break;
+                case DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE:
+                    displayedLines = new List<string>(startLines.Count +
+                        persuadeLines.Count +
+                        blueBotLines.Count);
+                    displayedLines.AddRange(startLines);
+                    displayedLines.AddRange(persuadeLines);
+                    displayedLines.AddRange(blueBotLines);
+                    DataCollector.Instance.PushData("Persuasion, Pilot Blue");
+                    break;
+                case DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_RED:
+                    displayedLines = new List<string>(startLines.Count +
+                        persuadeLines.Count +
+                        redBotLines.Count);
+                    displayedLines.AddRange(startLines);
+                    displayedLines.AddRange(persuadeLines);
+                    displayedLines.AddRange(redBotLines);
+                    DataCollector.Instance.PushData("Persuasion, Pilot Red");
+                    break;
             }
         }
         else

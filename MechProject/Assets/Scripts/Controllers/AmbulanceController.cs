@@ -32,6 +32,7 @@ public class AmbulanceController : MonoBehaviour {
             else
             {
                 Debug.Log("Change scene to EndScene");
+                MainSceneController.instance.EndScene();
                 SceneChangeController.instance.ChangeScene("EndScene");
                 Destroy(this);
             }

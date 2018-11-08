@@ -52,6 +52,8 @@ public class MainSceneController : MonoBehaviour {
     bool faded = false;
     bool stopFade = false;
 
+    float timer = 0f;
+
     Image fadeImage;
 
     private void Awake()
@@ -118,6 +120,7 @@ public class MainSceneController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        timer += Time.deltaTime;
         if (moveBefore)
         {
             timerForTransition += Time.deltaTime;
@@ -171,5 +174,10 @@ public class MainSceneController : MonoBehaviour {
         if (rubberPlacements[movementIndex] == SIDE.DEFAULT)
             return true;
         return false;
+    }
+
+    public void EndScene()
+    {
+        DataCollector.Instance.PushData("Time Taken for user to finish: " + timer.ToString());
     }
 }
