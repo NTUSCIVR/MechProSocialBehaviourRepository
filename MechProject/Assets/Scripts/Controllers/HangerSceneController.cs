@@ -6,34 +6,47 @@ using UnityEngine.UI;
 
 public class HangerSceneController : MonoBehaviour
 {
+    [Tooltip("The eyelight of the robot")]
     public GameObject eyeLight;
+    [Tooltip("The text object to display the robot words")]
     public Canvas CanvasObject;
 
+    [Tooltip("The left controller of the player")]
     public GameObject leftControllerObject;
+    [Tooltip("The right controller of the player")]
     public GameObject rightControllerObject;
+    //the steam vr controller objects
     private SteamVR_Controller.Device leftController { get { return SteamVR_Controller.Input((int)leftControllerObject.GetComponent<SteamVR_TrackedObject>().index); } }
     private SteamVR_Controller.Device rightController { get { return SteamVR_Controller.Input((int)rightControllerObject.GetComponent<SteamVR_TrackedObject>().index); } }
 
+    [Tooltip("The lines that the robot will tell you regardless of red or blue")]
     public List<string> startLines;
+    [Tooltip("Lines for persuasion scenario")]
     public List<string> persuadeLines;
+    [Tooltip("Lines for no persuasion scenario")]
     public List<string> noPersuadeLines;
+    [Tooltip("Lines for when the red bot is selected")]
     public List<string> redBotLines;
+    [Tooltip("Lines for when the blue bot is selected")]
     public List<string> blueBotLines;
+    [Tooltip("Speed for how fast each letter appear, in word per second")]
     public float DisplayRate = 1.0f;
+    [Tooltip("How long it takes to enter the next scene after the final text")]
     public float timeToNextScene = 1f;
 
+    [Tooltip("Audio for the robot speaking")]
     public AudioSource robotBeep;
 
+    //text object inside the canvas object
     Text TextObject;
+    //timer for the display rate
     float timer = 0.0f;
+    //the list of all lines used in the current scenario
     List<string> displayedLines;
+    //the index of the letter in the current line
     int wordIndex = 0;
+    //the index of the current line shown
     int linesIndex = 0;
-
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {

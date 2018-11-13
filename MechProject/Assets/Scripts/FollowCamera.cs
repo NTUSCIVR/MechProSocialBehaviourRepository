@@ -16,6 +16,8 @@ public class FollowCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //keep moving this object along the x and z axis
+        //keep it at the calibrated height of the user
         Vector3 newPos = new Vector3(mainCamera.transform.position.x, y, mainCamera.transform.position.z);
         transform.position = newPos;
 

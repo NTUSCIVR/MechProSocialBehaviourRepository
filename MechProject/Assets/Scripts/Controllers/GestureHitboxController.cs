@@ -11,6 +11,10 @@ public class GestureHitboxController : MonoBehaviour {
     [Tooltip("Time needed for sideways gesture to get recognized")]
     public float swipeDelay = 1f;
 
+    //bunch of booleans and timers for checking gestures
+    //if the user move their hand through a hitbox, it will start a timer
+    //if the user touch the triggerbox that corresponds with the hitbox the user touched
+    //it will register as a gesture
     public bool swipingLeft = false;
     float leftSwipeTimer = 0f;
 
@@ -38,6 +42,7 @@ public class GestureHitboxController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //all these are to update the timers for every action
         if (swipingLeft)
         {
             if(leftSwipeTimer > swipeDelay)
@@ -99,22 +104,27 @@ public class GestureHitboxController : MonoBehaviour {
         }
 	}
     
+    //when the user swiped left
     public void OnSwipeLeft(SIDE side)
     {
-        //if (MainSceneController.instance != null)
+        //if the user attached their hands to the rings
         if (MainSceneController.instance.leftAttached)
         {
+            //if the user started swiping from the right side
             if (side == SIDE.RIGHT)
             {
+                //starts the timer to check for the hand to enter the left box
                 swipingLeft = true;
             }
             else
             {
+                //if the user swiped the left box, and the right box was swiped
                 if (swipingLeft)
                 {
+                    //user has actually swiped right to left
+                    //ask the robot to perform the animation
                     identifyGesture.PlaySwipeLeftAnimation();
                     swipingLeft = false;
-                    //DataCollector.Instance.PushData("Time taken for swiping left: " + leftSwipeTimer);
                     leftSwipeTimer = 0f;
                 }
             }
@@ -123,7 +133,8 @@ public class GestureHitboxController : MonoBehaviour {
 
     public void OnSwipeRight(SIDE side)
     {
-        //if (MainSceneController.instance != null)
+        //same way the left swipe works
+        //refer to OnSwipeLeft and just change the side
         if (MainSceneController.instance.rightAttached)
         {
             if (side == SIDE.LEFT)
@@ -136,17 +147,20 @@ public class GestureHitboxController : MonoBehaviour {
                 {
                     identifyGesture.PlaySwipeRightAnimation();
                     swipingRight = false;
-                    //DataCollector.Instance.PushData("Time taken for swiping right: " + rightSwipeTimer);
                     rightSwipeTimer = 0f;
                 }
             }
         }
     }
 
+    //start the timer when the user move their hands into a box
+
+    //when the user enters one of the forward hitboxes
     public void OnSwipeIn(FORWARD_SIDE side)
     {
         if (MainSceneController.instance.leftAttached && MainSceneController.instance.rightAttached)
         {
+            //set the booleans to true to check for a forward swipe
             if (side == FORWARD_SIDE.FORWARD)
             {
                 swipingForwardIn = true;

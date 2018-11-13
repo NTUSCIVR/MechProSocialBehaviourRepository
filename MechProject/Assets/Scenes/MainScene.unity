@@ -13316,6 +13316,56 @@ Prefab:
       propertyPath: turnOnText
       value: 
       objectReference: {fileID: 2800000, guid: 779e6f173c0193e49b9e97bd04cd3458, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: blue_leftHandEnterRing
+      value: 
+      objectReference: {fileID: 2800000, guid: f6cb93c155c3e0740b85b8f32b15ea31, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: blue_rightHandEnterRing
+      value: 
+      objectReference: {fileID: 2800000, guid: cf5aa1dd6221e874caab91e6bc427906, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: blue_swipeRightToLeftText
+      value: 
+      objectReference: {fileID: 2800000, guid: 436a8bc8968f2b746a31dbc3bf955d3b, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: blue_swipeLeftToRightText
+      value: 
+      objectReference: {fileID: 2800000, guid: 757a883a993b3e148858814e172791c9, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: red_leftHandEnterRing
+      value: 
+      objectReference: {fileID: 2800000, guid: a8524fa8a4ca1f245816098b506577f6, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: red_rightHandEnterRing
+      value: 
+      objectReference: {fileID: 2800000, guid: fe1403bb4ddd83040a87d86cacd59907, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: red_swipeRightToLeftText
+      value: 
+      objectReference: {fileID: 2800000, guid: 240fd58f84944aa479d8091db04a0ea3, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: red_swipeLeftToRightText
+      value: 
+      objectReference: {fileID: 2800000, guid: 66d682ccc532c1447a002b3fec8070f9, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: red_swingArmsForwardAndBackText
+      value: 
+      objectReference: {fileID: 2800000, guid: e6da0a3d7b772c14e8309332c8cbc9d1, type: 3}
+    - target: {fileID: 114367889808679138, guid: 7d87e89460386614d9a9d05c58465f7d,
+        type: 2}
+      propertyPath: blue_swingArmsForwardAndBackText
+      value: 
+      objectReference: {fileID: 2800000, guid: 8878068a7e915404b93babbb1110f70b, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d87e89460386614d9a9d05c58465f7d, type: 2}
   m_IsPrefabAsset: 0
