@@ -6,29 +6,43 @@ using UnityEngine;
 //rip the code so dependent on each other i cant do much alr, sorry next intern peep
 public class MainSceneController : MonoBehaviour {
 
+    //the 2 states of main scene, the tutorial for the user and the game
     public enum GAME_STATE
     {
         TUTORIAL,
-        GAME
+        GAME,
+        END
     }
 
     public static MainSceneController instance;
 
+    //both controllers
     public GameObject LeftController;
     public GameObject RightController;
 
+    //the ring for after it has been attached to the player
     public GameObject blueCirclePrefab;
+    public GameObject redCirclePrefab;
 
+    //boolean for whether the player has attached his left and right hand
     public bool leftAttached = false;
     public bool rightAttached = false;
 
+    //the starting transform of the robot
     public Transform robotStartTransform;
+    //the blue mech
     public GameObject blueBot;
+    //the rendertexture for the camera of the blue mech
     public RenderTexture blueBotEye;
+    //the red mech
     public GameObject redBot;
+    //the rendertexture for the camera of the red mech
     public RenderTexture redBotEye;
+    //the quad responsible for showing the rendertextures of the mech
     public GameObject cockpitDisplay;
+    //reference to the current bot used in the scenario
     GameObject primaryBot;
+    //identify gesture script for running animations
     public IdentifyGesture identifyGesture;
 
     [Tooltip("List of objects that are placed on the left or right in a straight line, the smaller the index the closer to the start it is")]
@@ -45,6 +59,7 @@ public class MainSceneController : MonoBehaviour {
     public bool swipeLeftBefore = false;
     public bool swipeRightBefore = false;
 
+    //some timers
     public float timeForTransition = 1f;
     float timerForTransition = 0f;
     public float fadeTime = 1f;
@@ -54,6 +69,7 @@ public class MainSceneController : MonoBehaviour {
 
     float timer = 0f;
 
+    //just a black image to manipulate alpha for fade effect
     Image fadeImage;
 
     private void Awake()
@@ -63,6 +79,8 @@ public class MainSceneController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //setting the used identify gesture to the respective scenarios
+        //also activate the correct robot for use in the scene
         if(DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE || DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE)
         {
             identifyGesture = blueBot.GetComponent<IdentifyGesture>();
@@ -93,6 +111,8 @@ public class MainSceneController : MonoBehaviour {
             cockpitDisplay.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", redBotEye);
             Debug.Log("Assigning cockpit display render texture");
         }
+        //creation of the rubbers infront of the start robot transfer
+        //this is based on the list of enums in the inspector
 		for(int i = 0; i < rubberPlacements.Count; ++i)
         {
             if (rubberPlacements[i] != SIDE.DEFAULT)
@@ -109,17 +129,26 @@ public class MainSceneController : MonoBehaviour {
                     newPosition += robotStartTransform.right * 2;
                     rubber.GetComponent<RubberController>().side = SIDE.RIGHT;
                 }
+                //if the side is default, dont place anything down
                 newPosition += robotStartTransform.forward * 3;
                 rubber.transform.position = newPosition;
+                //randomize the rotation of the debris
                 rubber.transform.Rotate(Vector3.up, Random.Range(0, 360));
                 rubber.GetComponent<RubberController>().forward = robotStartTransform.forward;
             }
         }
         fadeImage = GameObject.FindWithTag("Fade").GetComponentInChildren<Image>();
+
+        if(movementIndex == rubberPlacements.Count - 1)
+        {
+            state = GAME_STATE.END;
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        //timer for how long it takes to transition to from tutorial to game
+        //it also fades and unfades the image
         timer += Time.deltaTime;
         if (moveBefore)
         {
@@ -166,11 +195,22 @@ public class MainSceneController : MonoBehaviour {
 
     public void AttachRing(GameObject go)
     {
-        Instantiate(blueCirclePrefab, go.transform);
+        //attach the rings to the user hands
+        //blue bot got blue ring, red bot got red ring
+        if (DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE
+            || DataCollector.Instance.scenario == DataCollector.PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE)
+        {
+            Instantiate(blueCirclePrefab, go.transform);
+        }
+        else
+            Instantiate(redCirclePrefab, go.transform);
     }
 
     public bool GetMovable()
     {
+        //check if the rubber has been moved
+        //if the rubber has been moved, user can move forward
+        //SIDE.DEFAULT is also the state for no rubber
         if (rubberPlacements[movementIndex] == SIDE.DEFAULT)
             return true;
         return false;
@@ -178,6 +218,7 @@ public class MainSceneController : MonoBehaviour {
 
     public void EndScene()
     {
+        //just put in the time taken to finish the tutorial and game scene
         DataCollector.Instance.PushData("Time Taken for user to finish: " + timer.ToString());
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 
+//responsible for changing scenes
 public class SceneChangeController : MonoBehaviour {
 
     static public SceneChangeController instance;
@@ -23,6 +24,7 @@ public class SceneChangeController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         instance = this;
+        //an instance that stays alive throughout the scenes
         DontDestroyOnLoad(gameObject);
 	}
 	
@@ -30,6 +32,7 @@ public class SceneChangeController : MonoBehaviour {
 	void Update () {
         if(fadingOut)
             FadeOut();
+        //start fading in when scene just changed to the new scene
         if (fadingIn)
             if(SceneManager.GetActiveScene() == SceneManager.GetSceneByName(nextScene))
                 FadeIn();
@@ -40,6 +43,7 @@ public class SceneChangeController : MonoBehaviour {
         if(fadeTimer <= fadeTime)
         {
             fadeTimer += Time.deltaTime;
+            //slowly make the black quad more opaque
             if(fadeOutImage != null)
                 fadeOutImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
         }
@@ -56,11 +60,13 @@ public class SceneChangeController : MonoBehaviour {
 
     void FadeIn()
     {
+        //find the fade out image in the scene
         fadeOutImage = GameObject.FindWithTag("Fade").GetComponentInChildren<Image>();
         GameObject.FindWithTag("Fade").transform.SetParent(GameObject.FindWithTag("MainCamera").transform);
         if(fadeTimer <= fadeTime)
         {
             fadeTimer += Time.deltaTime;
+            //slowly make the black quad more transparent
             fadeOutImage.color = new Color(0, 0, 0, 1 - fadeTimer / fadeTime);
         }
         else

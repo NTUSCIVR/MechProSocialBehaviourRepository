@@ -21,12 +21,14 @@ public class CockpitController : MonoBehaviour {
     public Texture red_swingArmsForwardAndBackText;
     public Texture red_leftHandEnterRing;
     public Texture red_rightHandEnterRing;
+    public Texture red_end;
     [Header("BLUE MECH")]
     public Texture blue_swipeRightToLeftText;
     public Texture blue_swipeLeftToRightText;
     public Texture blue_swingArmsForwardAndBackText;
     public Texture blue_leftHandEnterRing;
     public Texture blue_rightHandEnterRing;
+    public Texture blue_end;
 
     //this will just be assinged the corresponding textures so i dont need check everytime
     Texture leftHandEnterRing;
@@ -34,6 +36,7 @@ public class CockpitController : MonoBehaviour {
     Texture swipeRightToLeftText;
     Texture swipeLeftToRightText;
     Texture swingArmsForwardAndBackText;
+    Texture end;
 
     [Tooltip("The cockpit light inside the cockpit")]
     public Light cockpitLight;
@@ -52,6 +55,7 @@ public class CockpitController : MonoBehaviour {
             swipeRightToLeftText = blue_swipeRightToLeftText;
             swipeLeftToRightText = blue_swipeLeftToRightText;
             swingArmsForwardAndBackText = blue_swingArmsForwardAndBackText;
+            end = blue_end;
         }
         else
         {
@@ -64,6 +68,7 @@ public class CockpitController : MonoBehaviour {
             swipeRightToLeftText = red_swipeRightToLeftText;
             swipeLeftToRightText = red_swipeLeftToRightText;
             swingArmsForwardAndBackText = red_swingArmsForwardAndBackText;
+            end = red_end;
         }
         //switch off the light at the start
         cockpitLight.enabled = false;
@@ -72,7 +77,7 @@ public class CockpitController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //change text based on what part of the tutorial the user is at
-        if(!MainSceneController.instance.leftAttached)
+        if (!MainSceneController.instance.leftAttached)
         {
             tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", leftHandEnterRing);
         }
@@ -80,37 +85,44 @@ public class CockpitController : MonoBehaviour {
         {
             tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", rightHandEnterRing);
         }
-		else if(!MainSceneController.instance.swipeLeftBefore)
+        else if (!MainSceneController.instance.swipeLeftBefore)
         {
             //turn on the light once the user "on" the mech
             cockpitLight.enabled = true;
             tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeRightToLeftText);
         }
-        else if(!MainSceneController.instance.swipeRightBefore)
+        else if (!MainSceneController.instance.swipeRightBefore)
         {
             tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeLeftToRightText);
         }
-        else if(!MainSceneController.instance.moveBefore)
+        else if (!MainSceneController.instance.moveBefore)
         {
             tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swingArmsForwardAndBackText);
         }
         else
         {
-            //give instructions when the user is moving through the drebris
-            if (MainSceneController.instance.movementIndex < MainSceneController.instance.rubberPlacements.Count)
+            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.GAME)
             {
-                if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.DEFAULT)
+                //give instructions when the user is moving through the drebris
+                if (MainSceneController.instance.movementIndex < MainSceneController.instance.rubberPlacements.Count)
                 {
-                    tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swingArmsForwardAndBackText);
+                    if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.DEFAULT)
+                    {
+                        tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swingArmsForwardAndBackText);
+                    }
+                    else if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.LEFT)
+                    {
+                        tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeRightToLeftText);
+                    }
+                    else if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.RIGHT)
+                    {
+                        tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeLeftToRightText);
+                    }
                 }
-                else if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.LEFT)
-                {
-                    tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeRightToLeftText);
-                }
-                else if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] == SIDE.RIGHT)
-                {
-                    tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", swipeLeftToRightText);
-                }
+            }
+            else if (MainSceneController.instance.state == MainSceneController.GAME_STATE.END)
+            {
+                tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", end);
             }
         }
 	}

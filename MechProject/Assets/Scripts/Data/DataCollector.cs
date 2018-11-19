@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class DataCollector : MonoBehaviour {
 
+    //the 4 cases that the mech project tackles
     public enum PROJECT_CASE
     {
         DEFAULT,
@@ -16,7 +17,9 @@ public class DataCollector : MonoBehaviour {
         BLUE_NO_PERSUADE_PILOT_RED
     }
 
+    //the scenario selected by the user
     public PROJECT_CASE scenario;
+    //the input field for the user to enter their name
     public InputField inputField;
     public string dataID = "";
     public static DataCollector Instance;
@@ -24,6 +27,10 @@ public class DataCollector : MonoBehaviour {
     private void Awake()
     {
         DontDestroyOnLoad(this);
+        if(!Directory.Exists(Application.dataPath + "/Data"))
+        {
+            Directory.CreateDirectory(Application.dataPath + "/Data");
+        }
     }
 
     // Use this for initialization
@@ -36,6 +43,7 @@ public class DataCollector : MonoBehaviour {
 
 	}
 
+    //edit the current file by adding the new text
     public void PushData(string text)
     {
         StreamWriter sw = File.AppendText(GetPath());
@@ -43,45 +51,36 @@ public class DataCollector : MonoBehaviour {
         sw.Close();
     }
 
+    //returns the file path being used to store the data
     private string GetPath()
     {
-#if UNITY_EDITOR
-        return Application.dataPath + "/Data/" + dataID + ".csv";
-#elif UNITY_ANDROID
-        return Application.persistentDataPath+dataID + ".csv";
-#elif UNITY_IPHONE
-        return Application.persistentDataPath+"/"+dataID + ".csv";
-#else
-        return Application.dataPath +"/"+dataID + ".csv";
-#endif
+        //if the filepath already exists, create a new file with a duplicate number
+        string filePath = Application.dataPath + "/Data/" + dataID + ".csv";
+        int duplicateCounts = 0;
+        while (true)
+        {
+            if (File.Exists(filePath))
+            {
+                ++duplicateCounts;
+                filePath = Application.dataPath + "/Data/" + dataID + "(" + duplicateCounts.ToString() + ")" + ".csv";
+            }
+            else
+                break;
+        }
+        return filePath;
     }
 
     void CreateCSV()
     {
-        if(File.Exists(GetPath()))
-        {
-            File.Delete(GetPath());
-        }
+        //create the csv file
         StreamWriter output = System.IO.File.CreateText(GetPath());
         output.WriteLine("Actions");
         output.Close();
     }
 
-    string ChangeLetters(string str, char letter, char toBeLetter)
-    {
-        char[] ret = str.ToCharArray();
-        for(int i = 0; i < ret.Length; ++i)
-        {
-            if(ret[i] == letter)
-            {
-                ret[i] = toBeLetter;
-            }
-        }
-        return new string(ret);
-    }
-
     public void OnScenarioSelect(GameObject btn)
     {
+        //set the scenario based on what was selected
         string text = btn.name;
         if (text == "BluePersuadePilotBlue")
         {
@@ -107,7 +106,11 @@ public class DataCollector : MonoBehaviour {
 
     public void OnStartPressed()
     {
+        //if no text, dont let them proceed
         if (inputField.text == null)
+            return;
+        //if no scenario selected, dont let them proceed
+        if (scenario == PROJECT_CASE.DEFAULT)
             return;
         dataID = inputField.text;
         CreateCSV();

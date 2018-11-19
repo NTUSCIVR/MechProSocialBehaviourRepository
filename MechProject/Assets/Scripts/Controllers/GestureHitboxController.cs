@@ -154,6 +154,8 @@ public class GestureHitboxController : MonoBehaviour {
     }
 
     //start the timer when the user move their hands into a box
+    //if the user swiped in to the front side, it means the user has to exit the
+    //backside box to trigger a forward swipe
 
     //when the user enters one of the forward hitboxes
     public void OnSwipeIn(FORWARD_SIDE side)

@@ -713,9 +713,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   side: 0
   forward: {x: 0, y: 0, z: 0}
-  speed: 5
+  speed: 10
   distanceToTravel: 2
-  delayBeforeMoving: 0.5
+  delayBeforeMoving: 0.25
 --- !u!135 &135080657422744588
 SphereCollider:
   m_ObjectHideFlags: 1

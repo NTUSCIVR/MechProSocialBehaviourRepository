@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//only purpose is to activate and deactivate the arrows
 public class TutorialUIController : MonoBehaviour {
 
     public GameObject leftArrow;

@@ -56,6 +56,8 @@ public class HangerSceneController : MonoBehaviour
 
         if (DataCollector.Instance)
         {
+            //check wat instance was selected, then add the appropriate lines into
+            //the displayed lines list
             switch (DataCollector.Instance.scenario)
             {
                 case DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE:
@@ -106,6 +108,7 @@ public class HangerSceneController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        //add letters into text object at display rate and stop beeping once done
         timer += Time.deltaTime;
         if(timer > DisplayRate)
         {
@@ -124,36 +127,32 @@ public class HangerSceneController : MonoBehaviour
             }
         }
 
-        if (leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+        //if the controller trigger was pressed
+        if (leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) || rightController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
         {
+            //if there are still more line sto display
             if (linesIndex < displayedLines.Count)
                 if (wordIndex == displayedLines[linesIndex].Length)
                 {
+                    //if the current line has been displayed finished
+                    //play the robot beep sound
                     if(linesIndex + 1 < displayedLines.Count)
                         robotBeep.Play();
+                    //empty the current displayed text
                     TextObject.text = "";
                     ++linesIndex;
-                    wordIndex = 0;
-                }
-        }
-        if(rightController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
-        {
-            if (linesIndex < displayedLines.Count)
-                if (wordIndex == displayedLines[linesIndex].Length)
-                {
-                    if (linesIndex + 1 < displayedLines.Count)
-                        robotBeep.Play();
-                    TextObject.text = "";
-                    ++linesIndex;
+                    //start playing the next line
                     wordIndex = 0;
                 }
         }
 
+        //when the user is at the final line
         if(linesIndex == displayedLines.Count)
         {
             timer += Time.deltaTime;
             if (timer > timeToNextScene)
             {
+                //wait to change scene to main scene
                 ChangeToNextScene();
                 Destroy(this);
             }

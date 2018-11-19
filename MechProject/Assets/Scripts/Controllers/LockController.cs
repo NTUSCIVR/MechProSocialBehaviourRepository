@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LockController : MonoBehaviour {
 
+    [Tooltip("The side of the ring lock")]
     public SIDE side;
 
 	// Use this for initialization
@@ -24,10 +25,13 @@ public class LockController : MonoBehaviour {
             Debug.Log(other.name + ": right");
         if(other.tag == "Controller")
         {
+            //if the object is the left controller
             if(other.gameObject == MainSceneController.instance.LeftController)
             {
+                //if the left ring has not been locked yet
                 if(!MainSceneController.instance.leftAttached)
                 {
+                    //if the ring is the left ring
                     if (side == SIDE.LEFT)
                     {
                         MainSceneController.instance.leftAttached = true;
@@ -39,8 +43,10 @@ public class LockController : MonoBehaviour {
             }
             else
             {
+                //if the right ring is not locked yet
                 if(!MainSceneController.instance.rightAttached)
                 {
+                    //if the ring is the right ring
                     if (side == SIDE.RIGHT)
                     {
                         MainSceneController.instance.rightAttached = true;

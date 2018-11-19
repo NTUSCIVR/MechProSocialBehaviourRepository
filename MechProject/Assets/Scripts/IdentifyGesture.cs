@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+//responsible for running animations and some audio, got some legacy code for identify gesture plugin
 public class IdentifyGesture : MonoBehaviour
 {
     // Gesture index to use for training and verifying custom gesture. Valid range is between 1 and 1000

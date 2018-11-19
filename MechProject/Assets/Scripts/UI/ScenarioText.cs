@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
+//only purpose to show what scenario is selected in the menu scene
 public class ScenarioText : MonoBehaviour {
 
 	// Use this for initialization
