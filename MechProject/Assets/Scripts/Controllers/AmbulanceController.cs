@@ -25,6 +25,7 @@ public class AmbulanceController : MonoBehaviour {
             if(MainSceneController.instance.movementIndex == MainSceneController.instance.rubberPlacements.Count)
             {
                 toDrive = true;
+                MainSceneController.instance.state = MainSceneController.GAME_STATE.END;
                 //start playing the ambulance audios
                 GetComponent<AudioSource>().Play();
             }
@@ -40,7 +41,7 @@ public class AmbulanceController : MonoBehaviour {
                 //tell mainscenecontroller to record down time taken to finish this scene
                 MainSceneController.instance.EndScene();
                 //should display some kind of a end text
-                SceneChangeController.instance.ChangeScene("EndScene");
+                //SceneChangeController.instance.ChangeScene("EndScene");
                 Destroy(this);
             }
         }

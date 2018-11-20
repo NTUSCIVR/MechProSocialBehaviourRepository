@@ -191,6 +191,17 @@ public class MainSceneController : MonoBehaviour {
                 }
             }
         }
+
+        //restart the game
+        if(state == GAME_STATE.END)
+        {
+            if(Input.GetKey(KeyCode.Escape))
+            {
+                Destroy(DataCollector.Instance.gameObject);
+                Destroy(SceneChangeController.instance.gameObject);
+                UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
+            }
+        }
 	}
 
     public void AttachRing(GameObject go)
@@ -219,6 +230,6 @@ public class MainSceneController : MonoBehaviour {
     public void EndScene()
     {
         //just put in the time taken to finish the tutorial and game scene
-        DataCollector.Instance.PushData("Time Taken for user to finish: " + timer.ToString());
+        DataCollector.Instance.PushData("Time Taken for user to finish: " + timer.ToString() + "s");
     }
 }
