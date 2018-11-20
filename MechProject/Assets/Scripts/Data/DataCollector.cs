@@ -23,6 +23,7 @@ public class DataCollector : MonoBehaviour {
     public InputField inputField;
     public string dataID = "";
     public static DataCollector Instance;
+    string currentPath = "";
 
     private void Awake()
     {
@@ -54,20 +55,26 @@ public class DataCollector : MonoBehaviour {
     //returns the file path being used to store the data
     private string GetPath()
     {
-        //if the filepath already exists, create a new file with a duplicate number
-        string filePath = Application.dataPath + "/Data/" + dataID + ".csv";
-        int duplicateCounts = 0;
-        while (true)
+        if (currentPath == "")
         {
-            if (File.Exists(filePath))
+            //if the filepath already exists, create a new file with a duplicate number
+            string filePath = Application.dataPath + "/Data/" + dataID + ".csv";
+            int duplicateCounts = 0;
+            while (true)
             {
-                ++duplicateCounts;
-                filePath = Application.dataPath + "/Data/" + dataID + "(" + duplicateCounts.ToString() + ")" + ".csv";
+                if (File.Exists(filePath))
+                {
+                    ++duplicateCounts;
+                    filePath = Application.dataPath + "/Data/" + dataID + "(" + duplicateCounts.ToString() + ")" + ".csv";
+                }
+                else
+                    break;
             }
-            else
-                break;
+            currentPath = filePath;
+            return filePath;
         }
-        return filePath;
+        else
+            return currentPath;
     }
 
     void CreateCSV()
