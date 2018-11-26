@@ -70,7 +70,7 @@ public class MainSceneController : MonoBehaviour {
     float timer = 0f;
 
     //just a black image to manipulate alpha for fade effect
-    Image fadeImage;
+    public Image fadeImage;
 
     private void Awake()
     {
