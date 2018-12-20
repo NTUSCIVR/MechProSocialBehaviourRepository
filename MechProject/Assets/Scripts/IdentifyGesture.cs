@@ -152,7 +152,7 @@ public class IdentifyGesture : MonoBehaviour
                 Vector3 EndPoint = new Vector3(Robot.transform.position.x,
                     Robot.transform.position.y,
                     Robot.transform.position.z + moveDistance);
-                StartCoroutine(WaitAwhile(0.15f, StartPoint, EndPoint, 0.3f));
+                StartCoroutine(WaitAwhile(1.0f, StartPoint, EndPoint, 0.15f));
 
                 audioSource.clip = moveForward;
                 audioSource.Play();
