@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-//rip the code so dependent on each other i cant do much alr, sorry next intern peep
+ 
 public class MainSceneController : MonoBehaviour {
 
     //the 2 states of main scene, the tutorial for the user and the game
@@ -161,7 +161,7 @@ public class MainSceneController : MonoBehaviour {
                     if (!faded)
                     {
                         fadeTimer += Time.deltaTime;
-                        Debug.Log("fading :" + fadeTimer);
+                       // Debug.Log("fading :" + fadeTimer);
                         if (fadeTimer < fadeTime)
                             fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
                         else
@@ -177,7 +177,6 @@ public class MainSceneController : MonoBehaviour {
                         if (!stopFade)
                         {
                             fadeTimer -= Time.deltaTime;
-                            Debug.Log("unfading: " + fadeTimer);
                             if (fadeTimer > 0)
                                 fadeImage.color = new Color(0, 0, 0, fadeTimer / fadeTime);
                             else

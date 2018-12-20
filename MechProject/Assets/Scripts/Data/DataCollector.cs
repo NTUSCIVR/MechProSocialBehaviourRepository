@@ -24,7 +24,7 @@ public class DataCollector : MonoBehaviour {
     public string dataID = "";
     public static DataCollector Instance;
     string currentPath = "";
-
+    public bool blind = false;
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -89,6 +89,7 @@ public class DataCollector : MonoBehaviour {
     {
         //set the scenario based on what was selected
         string text = btn.name;
+        blind = false;
         if (text == "BluePersuadePilotBlue")
         {
             scenario = PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE;
@@ -108,6 +109,11 @@ public class DataCollector : MonoBehaviour {
         {
             scenario = PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED;
             Debug.Log("BlueNoPersuadePilotRed");
+        }
+        else
+        {
+            scenario = (PROJECT_CASE)Random.Range((int)PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE, (int)PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED);
+            blind = true;
         }
     }
 

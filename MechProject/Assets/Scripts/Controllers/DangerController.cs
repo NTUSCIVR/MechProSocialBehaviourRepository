@@ -13,7 +13,7 @@ public class DangerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] != SIDE.DEFAULT)
+        if (MainSceneController.instance.movementIndex < MainSceneController.instance.rubberPlacements.Count && MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] != SIDE.DEFAULT)
         {
             GetComponent<SpriteRenderer>().enabled = true;
             text.SetActive(true);

@@ -172,8 +172,10 @@ public class IdentifyGesture : MonoBehaviour
     {
         if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
-            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL && !MainSceneController.instance.swipeRightBefore)
                 MainSceneController.instance.swipeLeftBefore = true;
+            else
+                return;
             audioSource.clip = moveArm;
             audioSource.Play();
             LeftArmAnimator.Rebind();
@@ -187,8 +189,10 @@ public class IdentifyGesture : MonoBehaviour
     {
         if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
-            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL && MainSceneController.instance.swipeLeftBefore)
                 MainSceneController.instance.swipeRightBefore = true;
+            else
+                return;
             audioSource.clip = moveArm;
             audioSource.Play();
             RightArmAnimator.Rebind();

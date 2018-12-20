@@ -16,8 +16,25 @@ public class HangerSceneController : MonoBehaviour
     [Tooltip("The right controller of the player")]
     public GameObject rightControllerObject;
     //the steam vr controller objects
-    private SteamVR_Controller.Device leftController { get { return SteamVR_Controller.Input((int)leftControllerObject.GetComponent<SteamVR_TrackedObject>().index); } }
-    private SteamVR_Controller.Device rightController { get { return SteamVR_Controller.Input((int)rightControllerObject.GetComponent<SteamVR_TrackedObject>().index); } }
+    private SteamVR_Controller.Device leftController
+    { get
+        {
+            int controllerIndex = (int)leftControllerObject.GetComponent<SteamVR_TrackedObject>().index;
+            if (controllerIndex < 0)
+                return null;
+            return SteamVR_Controller.Input(controllerIndex);
+        }
+    }
+    private SteamVR_Controller.Device rightController
+    {
+        get
+        {
+            int controllerIndex = (int)rightControllerObject.GetComponent<SteamVR_TrackedObject>().index;
+            if (controllerIndex < 0)
+                return null;
+            return SteamVR_Controller.Input(controllerIndex);
+        }
+    }
 
     [Tooltip("The lines that the robot will tell you regardless of red or blue")]
     public List<string> startLines;
@@ -58,6 +75,10 @@ public class HangerSceneController : MonoBehaviour
         {
             //check wat instance was selected, then add the appropriate lines into
             //the displayed lines list
+            if(DataCollector.Instance.blind)
+            {
+                DataCollector.Instance.PushData("Blind Choice");
+            }
             switch (DataCollector.Instance.scenario)
             {
                 case DataCollector.PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_BLUE:
@@ -127,23 +148,28 @@ public class HangerSceneController : MonoBehaviour
             }
         }
 
-        //if the controller trigger was pressed
-        if (leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) || rightController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+        if (leftControllerObject.GetComponent<SteamVR_TrackedObject>().index > SteamVR_TrackedObject.EIndex.None ||
+            rightControllerObject.GetComponent<SteamVR_TrackedObject>().index > SteamVR_TrackedObject.EIndex.None)
         {
-            //if there are still more line sto display
-            if (linesIndex < displayedLines.Count)
-                if (wordIndex == displayedLines[linesIndex].Length)
-                {
-                    //if the current line has been displayed finished
-                    //play the robot beep sound
-                    if(linesIndex + 1 < displayedLines.Count)
-                        robotBeep.Play();
-                    //empty the current displayed text
-                    TextObject.text = "";
-                    ++linesIndex;
-                    //start playing the next line
-                    wordIndex = 0;
-                }
+            //if the controller trigger was pressed
+            if (leftController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) ||
+            rightController.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                //if there are still more line sto display
+                if (linesIndex < displayedLines.Count)
+                    if (wordIndex == displayedLines[linesIndex].Length)
+                    {
+                        //if the current line has been displayed finished
+                        //play the robot beep sound
+                        if (linesIndex + 1 < displayedLines.Count)
+                            robotBeep.Play();
+                        //empty the current displayed text
+                        TextObject.text = "";
+                        ++linesIndex;
+                        //start playing the next line
+                        wordIndex = 0;
+                    }
+            }
         }
 
         //when the user is at the final line

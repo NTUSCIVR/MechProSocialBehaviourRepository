@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Controls the UI of the cockpit
 public class CockpitController : MonoBehaviour {
 
     [Tooltip("Color for the pointlight in the cockpit in blue MECH")]
