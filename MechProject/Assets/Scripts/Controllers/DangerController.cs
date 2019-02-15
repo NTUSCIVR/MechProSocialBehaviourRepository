@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DangerController : MonoBehaviour {
 
-    public GameObject text;
-
 	// Use this for initialization
 	void Start () {
         GetComponent<SpriteRenderer>().enabled = false;
@@ -13,15 +11,14 @@ public class DangerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
+        if (MainSceneController.instance.movementIndex < MainSceneController.instance.rubberPlacements.Count && MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] != SIDE.DEFAULT)
+        {
+=======
         if (MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] != SIDE.DEFAULT)
-        {
+>>>>>>> parent of 25c1222... File Changes
             GetComponent<SpriteRenderer>().enabled = true;
-            text.SetActive(true);
-        }
         else
-        {
             GetComponent<SpriteRenderer>().enabled = false;
-            text.SetActive(false);
-        }
 	}
 }

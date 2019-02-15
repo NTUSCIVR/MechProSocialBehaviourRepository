@@ -34,7 +34,7 @@ public class DataCollector : MonoBehaviour {
         set { s_instance = value; }
     }
     string currentPath = "";
-
+    public bool blind = false;
     private void Awake()
     {
         int blindoption = PlayerPrefs.GetInt("Blind", (int)blind) + 1;
@@ -99,6 +99,7 @@ public class DataCollector : MonoBehaviour {
     {
         //set the scenario based on what was selected
         string text = btn.name;
+        blind = false;
         if (text == "BluePersuadePilotBlue")
         {
             scenario = PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE;
@@ -119,6 +120,7 @@ public class DataCollector : MonoBehaviour {
             scenario = PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED;
             Debug.Log("BlueNoPersuadePilotRed");
         }
+<<<<<<< HEAD
         else if (text == "Blind")
         {
             scenario = blind;
@@ -128,6 +130,12 @@ public class DataCollector : MonoBehaviour {
             //scenario = (PROJECT_CASE)values.GetValue(random.Next(values.Length));
             //while(scenario == PROJECT_CASE.DEFAULT)
             //    scenario = (PROJECT_CASE)values.GetValue(random.Next(values.Length));
+=======
+        else
+        {
+            scenario = (PROJECT_CASE)Random.Range((int)PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE, (int)PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED);
+            blind = true;
+>>>>>>> 6b62e0e283b8b29ba1c8b0102df9e98f7654facb
         }
     }
 
