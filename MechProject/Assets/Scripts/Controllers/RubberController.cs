@@ -23,11 +23,6 @@ public class RubberController : MonoBehaviour {
 
     public float delayBeforeMoving = 2f;
     float timer = 0f;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -74,11 +69,24 @@ public class RubberController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Arm")
+        if(side == SIDE.LEFT)
         {
-            //if it a arm triggers it, start moving
-            startMoving = true;
-            MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] = SIDE.DEFAULT;
+            if (other.tag == "LeftArm")
+            {
+                //if it a arm triggers it, start moving
+                startMoving = true;
+                MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] = SIDE.DEFAULT;
+            }
         }
+        else
+        {
+            if (other.tag == "RightArm")
+            {
+                //if it a arm triggers it, start moving
+                startMoving = true;
+                MainSceneController.instance.rubberPlacements[MainSceneController.instance.movementIndex] = SIDE.DEFAULT;
+            }
+        }
+        
     }
 }

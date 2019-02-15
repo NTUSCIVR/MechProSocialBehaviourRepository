@@ -144,7 +144,9 @@ public class IdentifyGesture : MonoBehaviour
                     ++MainSceneController.instance.movementIndex;
                 if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL && MainSceneController.instance.moveBefore)
                     return;
-                if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL && !MainSceneController.instance.moveBefore)
+                if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL && !MainSceneController.instance.moveBefore 
+                    && MainSceneController.instance.swipeLeftBefore 
+                    && MainSceneController.instance.swipeRightBefore)
                     MainSceneController.instance.moveBefore = true;
                 Debug.Log(MainSceneController.instance.moveBefore);
                 // Robot Move Forward
@@ -161,8 +163,8 @@ public class IdentifyGesture : MonoBehaviour
                 HeadAnimator.Play("Bob");
                 CockpitAnimator.Rebind();
                 CockpitAnimator.Play("Cockpit_Bob");
-                SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(10000);
-                SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(10000);
+                SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(15000);
+                SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(15000);
                 StartCoroutine(Bobbing());
             }
         }
@@ -173,12 +175,17 @@ public class IdentifyGesture : MonoBehaviour
         if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !LeftArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
             if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+            {
+                if (MainSceneController.instance.swipeLeftBefore)
+                    return;
                 MainSceneController.instance.swipeLeftBefore = true;
+            }
+
             audioSource.clip = moveArm;
             audioSource.Play();
             LeftArmAnimator.Rebind();
             LeftArmAnimator.Play("Swipe");
-            SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(7000);
+            SteamVR_Controller.Input((int)MainSceneController.instance.LeftController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(500);
             StartCoroutine(SwipingLeft());
         }
     }
@@ -187,13 +194,20 @@ public class IdentifyGesture : MonoBehaviour
     {
         if (!HeadAnimator.GetCurrentAnimatorStateInfo(0).IsName("Bob") && !RightArmAnimator.GetCurrentAnimatorStateInfo(0).IsName("Swipe"))
         {
-            if (MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+            if (MainSceneController.instance.swipeLeftBefore && MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+            {
+                
                 MainSceneController.instance.swipeRightBefore = true;
+            }
+            else if ((MainSceneController.instance.swipeRightBefore || !MainSceneController.instance.swipeLeftBefore) && MainSceneController.instance.state == MainSceneController.GAME_STATE.TUTORIAL)
+            {
+                return;
+            }
             audioSource.clip = moveArm;
             audioSource.Play();
             RightArmAnimator.Rebind();
             RightArmAnimator.Play("Swipe");
-            SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(7000);
+            SteamVR_Controller.Input((int)MainSceneController.instance.RightController.GetComponent<SteamVR_TrackedObject>().index).TriggerHapticPulse(500);
             StartCoroutine(SwipingRight());
         }
     }

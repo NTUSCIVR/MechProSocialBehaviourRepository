@@ -36,7 +36,7 @@ public class RightSwipe : MonoBehaviour {
     //placed in exit as the timer should only countdown when user start to swipe from left to right
     private void OnTriggerExit(Collider other)
     {
-        if(other.GetComponent<SteamVR_TrackedObject>())
+        if (other.GetComponent<SteamVR_TrackedObject>())
         {
             if (other.gameObject == MainSceneController.instance.RightController)
             {

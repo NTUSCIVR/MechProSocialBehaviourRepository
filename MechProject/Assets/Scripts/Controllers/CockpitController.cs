@@ -15,6 +15,7 @@ public class CockpitController : MonoBehaviour {
 
     [Tooltip("The screen with the tutorial instruction on it")]
     public GameObject tutorialScreen;
+    public GameObject endScreen;
     [Header("RED MECH")]
     public Texture red_swipeRightToLeftText;
     public Texture red_swipeLeftToRightText;
@@ -22,6 +23,8 @@ public class CockpitController : MonoBehaviour {
     public Texture red_leftHandEnterRing;
     public Texture red_rightHandEnterRing;
     public Texture red_end;
+    public Texture red_endbig;
+
     [Header("BLUE MECH")]
     public Texture blue_swipeRightToLeftText;
     public Texture blue_swipeLeftToRightText;
@@ -29,6 +32,8 @@ public class CockpitController : MonoBehaviour {
     public Texture blue_leftHandEnterRing;
     public Texture blue_rightHandEnterRing;
     public Texture blue_end;
+    public Texture blue_endbig;
+
 
     //this will just be assinged the corresponding textures so i dont need check everytime
     Texture leftHandEnterRing;
@@ -37,6 +42,8 @@ public class CockpitController : MonoBehaviour {
     Texture swipeLeftToRightText;
     Texture swingArmsForwardAndBackText;
     Texture end;
+    Texture endbig;
+
 
     [Tooltip("The cockpit light inside the cockpit")]
     public Light cockpitLight;
@@ -56,6 +63,7 @@ public class CockpitController : MonoBehaviour {
             swipeLeftToRightText = blue_swipeLeftToRightText;
             swingArmsForwardAndBackText = blue_swingArmsForwardAndBackText;
             end = blue_end;
+            endbig = blue_endbig;
         }
         else
         {
@@ -69,6 +77,8 @@ public class CockpitController : MonoBehaviour {
             swipeLeftToRightText = red_swipeLeftToRightText;
             swingArmsForwardAndBackText = red_swingArmsForwardAndBackText;
             end = red_end;
+            endbig = red_endbig;
+
         }
         //switch off the light at the start
         cockpitLight.enabled = false;
@@ -123,6 +133,8 @@ public class CockpitController : MonoBehaviour {
             else if (MainSceneController.instance.state == MainSceneController.GAME_STATE.END)
             {
                 tutorialScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", end);
+                endScreen.SetActive(true);
+                endScreen.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", endbig);
             }
         }
 	}

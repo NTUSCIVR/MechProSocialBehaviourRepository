@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -16,17 +17,31 @@ public class DataCollector : MonoBehaviour {
         BLUE_NO_PERSUADE_PILOT_BLUE,
         BLUE_NO_PERSUADE_PILOT_RED
     }
-
+    PROJECT_CASE blind = PROJECT_CASE.DEFAULT;
     //the scenario selected by the user
     public PROJECT_CASE scenario;
     //the input field for the user to enter their name
     public InputField inputField;
     public string dataID = "";
-    public static DataCollector Instance;
+    static DataCollector s_instance;
+    public static DataCollector Instance { get { if (!s_instance)
+            {
+                GameObject go = new GameObject("DataCollector");
+                s_instance = go.AddComponent<DataCollector>();
+            }
+            return s_instance;
+        }
+        set { s_instance = value; }
+    }
     string currentPath = "";
 
     private void Awake()
     {
+        int blindoption = PlayerPrefs.GetInt("Blind", (int)blind) + 1;
+        if (blindoption >= Enum.GetValues(typeof(PROJECT_CASE)).Length)
+            blind = PROJECT_CASE.BLUE_PERSUADE_PILOT_BLUE;
+        else
+            blind = (PROJECT_CASE)blindoption;
         DontDestroyOnLoad(this);
         if(!Directory.Exists(Application.dataPath + "/Data"))
         {
@@ -38,11 +53,6 @@ public class DataCollector : MonoBehaviour {
     void Start () {
         Instance = this;
     }
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
     //edit the current file by adding the new text
     public void PushData(string text)
@@ -109,6 +119,16 @@ public class DataCollector : MonoBehaviour {
             scenario = PROJECT_CASE.BLUE_NO_PERSUADE_PILOT_RED;
             Debug.Log("BlueNoPersuadePilotRed");
         }
+        else if (text == "Blind")
+        {
+            scenario = blind;
+            //Array values = Enum.GetValues(typeof(PROJECT_CASE));
+            //System.Random random = new System.Random();
+            
+            //scenario = (PROJECT_CASE)values.GetValue(random.Next(values.Length));
+            //while(scenario == PROJECT_CASE.DEFAULT)
+            //    scenario = (PROJECT_CASE)values.GetValue(random.Next(values.Length));
+        }
     }
 
     public void OnStartPressed()
@@ -120,6 +140,7 @@ public class DataCollector : MonoBehaviour {
         if (scenario == PROJECT_CASE.DEFAULT)
             return;
         dataID = inputField.text;
+        PlayerPrefs.SetInt("Blind", (int)blind);PlayerPrefs.Save();
         CreateCSV();
         SceneChangeController.instance.ChangeScene("HangerScene");
     }

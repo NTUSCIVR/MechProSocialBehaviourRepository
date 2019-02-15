@@ -7,6 +7,8 @@ TagManager:
   - Controller
   - Arm
   - Fade
+  - LeftArm
+  - RightArm
   layers:
   - Default
   - TransparentFX
